@@ -1,6 +1,24 @@
-// 실습 페이지를 한 곳에서 관리한다.
-// 이 배열이 라우터(routes)와 사이드바 내비게이션(App.vue) 양쪽의 단일 소스가 된다.
+// 실습 페이지 목록을 이 배열 하나로 관리
+// 라우터 등록과 사이드바 메뉴 렌더링에 동일한 배열을 재사용 (중복 관리 방지)
 export const practiceGroups = [
+  {
+    groupId: 'handson',
+    label: '핸즈온 과제',
+    items: [
+      {
+        path: '/handson/weather-mockup',
+        name: 'handson-weather-mockup',
+        label: 'Weather Mockup',
+        component: () => import('@/components/practices/handson/WeatherMockup.vue'),
+      },
+      {
+        path: '/handson/weather-composition',
+        name: 'handson-weather-composition',
+        label: 'Weather Composition',
+        component: () => import('@/components/practices/handson/WeatherComposition.vue'),
+      },
+    ],
+  },
   {
     groupId: 'basic',
     label: '기본 문법 (Vue Syntax)',

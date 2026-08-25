@@ -1,64 +1,120 @@
 # skala-vue
 
-Skala Vue 강의 종합과제 저장소입니다. Vue 3 + Composition API(`<script setup>`)로 작성한 실습 컴포넌트를 Vue Router로 페이지별로 분리하고, 사이드바 내비게이션 + 홈 대시보드 형태의 실습 뷰어 앱으로 구성했습니다.
+Skala Vue 수업 과제 정리용 repository입니다. Vue 3 + Composition API(`<script setup>`)로 작성한 실습 컴포넌트들을 모아두었고, 페이지 수가 늘어나면서 Vue Router를 붙여 사이드바로 이동할 수 있도록 구성했습니다.
 
-- 배포 URL: _(Vercel/Netlify/GitHub Pages 배포 후 링크 추가 예정)_
+- 배포 URL: _(배포 후 추가 예정)_
 
 ## 실행 방법
 
 ```sh
 npm install
 npm run dev      # 개발 서버
-npm run build    # 프로덕션 빌드 (dist/)
-npm run lint     # ESLint + Oxlint
-npm run format   # Prettier
+npm run build    # 프로덕션 빌드
+npm run lint     # eslint + oxlint
+npm run format   # prettier
 ```
 
-## 프로젝트 구조
+## 폴더 구조
 
 ```
 src/
   components/practices/
-    basic/        기본 문법 실습 (Reactivity, Text Interpolation)
-    directive/    Vue Directive 실습 (v-html, v-bind, v-if, v-for, v-memo 등 14개)
-  router/
-    practiceRoutes.js   실습 라우트 + 사이드바 메뉴의 단일 소스(Single Source of Truth)
-    index.js            practiceRoutes를 기반으로 라우터 생성
-  views/
-    HomeView.vue         실습 목록 카드형 대시보드
-  App.vue                 상단 헤더 + 좌측 사이드바 + RouterView 레이아웃
+    basic/        1일차 기초 실습 (반응성, Text Interpolation)
+    directive/    Directive 실습 14개 (v-if, v-for, v-bind, v-memo 등)
+    handson/      채점 대상 핸즈온 과제
+  api/openMeteo.js          실시간 날씨 API 호출
+  composables/useLiveWeather.js
+  router/practiceRoutes.js  라우트 + 사이드바 메뉴 정의
+  App.vue                    헤더 + 사이드바 + RouterView 레이아웃
 ```
 
-## 단원별 실습 & Customization 기록
+## 진행 기록
 
-### 1. 개발 환경 구성 (Dev Setup)
+### 1일차 - 개발환경 세팅, 기초 문법
 
-- `create-vue@3.22.3` 기준으로 Router / Pinia / ESLint / Prettier 옵션을 켜서 프로젝트를 생성했습니다.
-- 실습 컴포넌트를 `App.vue`에 바로 몰아넣지 않고, 처음부터 `components/practices/기능분류/` 하위에 정리해서 이후 실습이 늘어나도 구조가 깨지지 않도록 했습니다.
+`create-vue`로 프로젝트를 처음 생성할 때 Router/Pinia 옵션을 켜지 않아 한 번 재생성했습니다. 두 번째 시도에서는 필요한 옵션을 모두 체크하여 정상적으로 생성했습니다.
 
-### 2. Vue Syntax 기초 (반응형 데이터, Text Interpolation)
+컴포넌트를 처음엔 `App.vue`에 바로 작성하려 했으나, 이후 실습이 늘어날 것을 감안해 `components/practices/` 하위에 종류별로 분류해 정리했습니다.
 
-- 일반 변수(`let`)와 `ref()`의 화면 갱신 차이를 비교하는 예제를 구현했습니다.
-- `v-text` 예제에서 `{{}}` 문자 자체를 화면에 출력해야 하는데, Vue 템플릿 파서가 문자열 안의 `{{`를 실제 mustache 문법으로 오인해 파싱 에러가 나는 이슈가 있어 HTML 엔티티(`&#123;&#123;&#125;&#125;`)로 우회 처리했습니다.
+`v-text` 예제에서 `{{}}` 문자 자체를 화면에 출력해야 하는데, Vue 템플릿 파서가 이를 실제 mustache 문법으로 인식해 파싱 에러가 발생했습니다. HTML 엔티티(`&#123;&#123;&#125;&#125;`)로 우회 처리했습니다.
 
-### 3. Vue Directive 실습
+### Directive 실습
 
-- 슬라이드에 나온 `v-html` / `v-html XSS` / `v-text` / `v-bind`(기본·Class·Style·단축 문법) / `v-if`·`v-else-if`·`v-else` / `v-show` / `v-for` / `v-pre` / `v-cloak` / `v-once` / `v-memo` 14개 예제를 각각 독립된 컴포넌트로 구현했습니다.
-- `v-html XSS` 예제는 실습 목적의 취약점 데모이며, 실제 서비스 코드가 아님을 인지하고 별도 페이지로 격리했습니다.
+슬라이드에 제시된 v-html / v-html XSS / v-text / v-bind(기본·Class·Style·단축 문법) / v-if·v-else-if·v-else / v-show / v-for / v-pre / v-cloak / v-once / v-memo를 각각 별도 컴포넌트로 구현했습니다. v-html XSS 데모는 실제로 스크립트가 실행되는 취약점 예제라, 다른 실습과 섞이지 않도록 별도 페이지로 분리했습니다.
 
-### 4. Vue Router 적용 & UI 커스터마이징 (자체 확장)
+### 라우터 적용
 
-과제 요구사항인 "실습 종류별로 라우터로 연결해서 예쁘게" 정리하기 위해 아래 구조를 직접 설계했습니다.
+페이지 수가 늘어나면서 한 화면에 모두 담기 어려워져 Vue Router와 사이드바 메뉴를 도입했습니다. `practiceRoutes.js` 한 파일에 라우트 목록과 사이드바 메뉴 정보를 함께 정의했습니다. 파일을 따로 관리하면 페이지 추가 시 두 곳을 각각 수정해야 해서, 관리 지점을 하나로 합쳤습니다. 홈 화면은 전체 실습을 카드 형태로 나열해 바로 이동할 수 있도록 구성했습니다.
 
-- **단일 소스 라우팅**: `router/practiceRoutes.js`에 `{ groupId, label, items: [{ path, name, label, component }] }` 형태로 실습 메타데이터를 한 번만 정의하고, 이 배열을 `router/index.js`(라우트 등록)와 `App.vue`/`HomeView.vue`(사이드바·카드 메뉴 렌더링) 양쪽에서 재사용하도록 구성했습니다. 실습을 추가할 때 이 파일 한 곳만 수정하면 라우트와 메뉴가 동시에 반영됩니다.
-- **레이아웃**: `App.vue`를 상단 헤더 + 좌측 카테고리별 사이드바 + `<RouterView />` 구조로 재작성하고, 현재 페이지에 해당하는 메뉴는 Vue 브랜드 컬러(`#42b883`)로 강조되도록 `active-class`를 적용했습니다.
-- **홈 대시보드**: `HomeView.vue`에서 전체 실습 개수를 자동 집계하고, 카테고리별 카드 그리드로 모든 실습에 바로 진입할 수 있도록 구현했습니다.
-- **성능**: 모든 실습 컴포넌트를 라우트 레벨 코드 스플리팅(`() => import(...)`)으로 지연 로딩하여, 빌드 시 실습별로 별도 청크가 생성되도록 했습니다.
-- **디자인 시스템**: 모든 실습 컴포넌트가 공통으로 쓰는 `.practice-section` 클래스를 전역 스타일로 통일해 카드형 UI로 일관되게 보이도록 했고, 기존 `create-vue` 기본 템플릿의 2단 그리드 CSS(랜딩 페이지용)는 새 레이아웃과 충돌해서 제거했습니다.
-- 기본 스캐폴드에 포함되어 있던 `HelloWorld` / `TheWelcome` / `AboutView` 등 실습과 무관한 샘플 컴포넌트는 정리했습니다.
+### 핸즈온 1 - Weather Mockup
 
-## 제출 체크리스트
+과제 요구사항은 v-for를 통한 배열 렌더링, v-if를 통한 온도별 라벨 표시, `:value`+`@input`을 이용한 도시 검색, 카드 클릭 이벤트와 상세보기 버튼(`.stop`), 그리고 본인 데이터 추가입니다.
 
-- [ ] GitHub Public 저장소 push (`git push -u origin main`)
-- [ ] 시크릿 창에서 저장소 접속 시 로그인 없이 소스 확인
-- [ ] Vercel / Netlify / GitHub Pages 등 정적 배포 후 위 배포 URL 항목 업데이트
+- 예시 데이터(서울/수원/부산)를 그대로 사용하지 않고 도시 8곳(인천·대전·광주·울산·제주·강릉·전주·포항)으로 새로 구성했습니다. 습도·풍속 필드도 추가했습니다.
+- 온도 라벨은 2단계(더움/선선함) 대신 4단계(폭염/더움/선선함/쌀쌀함)로 세분화했습니다.
+- "OO이 선택되었습니다" 문구를 하드코딩하면 "여수가"가 "여수이"로 출력되는 문제가 있어, 이름 마지막 글자의 받침 유무를 판별해 조사(이/가)를 자동으로 붙이는 함수를 작성했습니다.
+- 상세보기는 처음에 `alert()`로 구현했으나 사용자 경험이 좋지 않아 모달로 변경했습니다. `.stop` 수식어는 그대로 유지했습니다(제거하면 카드 클릭 이벤트까지 함께 발생합니다).
+- 디자인을 더 다듬어보라는 피드백을 받아 three.js로 배경에 파티클 효과를 추가했습니다. 날씨 상태(맑음/비/눈/구름/안개)에 따라 움직임이 달라집니다. 태양 발광 효과(Bloom)의 강도를 처음에 너무 세게 설정해 카드 텍스트까지 하얗게 씻겨 보이는 문제가 있었는데, 강도를 낮춰 해결했습니다.
+- 구름을 각진 3D 도형(Icosahedron)으로 표현했더니 저해상도 블록처럼 보인다는 피드백을 받아, 부드러운 원형 텍스처 스프라이트로 교체했습니다. 이후에는 떠다니는 3D 구름을 제거하고 배경 사진에 포함된 구름만 남겼습니다.
+- 실시간 날씨 조회 기능도 추가했습니다. API Key가 필요 없는 Open-Meteo를 사용했습니다. "서울"로 검색 시 결과가 나오지 않는 문제가 있어, 한글→영문 도시명 매핑 테이블을 만들어 해결했습니다.
+- 배경 사진은 Unsplash 직링크를 날씨별로 다르게 사용했습니다. `source.unsplash.com`은 서비스가 종료되어 `images.unsplash.com` 직접 링크를 사용했고, 사진 하나하나 내용을 확인한 뒤 적용했습니다.
+
+참고로 다른 팀원의 repository(SKALA-Web)를 열람했으나, README에 코드 복사·재배포를 금지하는 라이선스가 명시되어 있어 코드는 확인하지 않고 구현 방향만 참고해 처음부터 새로 작성했습니다.
+
+### 핸즈온 2 - Weather Composition
+
+computed / watch / watchEffect 활용을 연습하는 과제입니다. 데이터는 1일차 Mockup 과제에서 사용한 목록을 재사용했습니다.
+
+- 검색어 기반 필터링: computed (`filteredWeatherList`)
+- 상태바 문구 변경 감지: watch
+- 검색어 입력 감지: watchEffect
+
+콘솔을 매번 열어 확인하기 번거로워, 로그를 화면 하단에도 함께 출력하도록 만들었습니다(콘솔 형태의 로그 패널).
+
+본인 추가 요구사항은 즐겨찾기(별표) 기능으로 구현했습니다. 상태 변수 1개, computed 1개(즐겨찾기 개수), watch 1개를 추가했습니다.
+
+이후 상세보기를 Mockup과 동일하게 모달로 교체하고, UI도 카드 그리드 형태로 다듬었습니다.
+
+## 트러블슈팅
+
+### `{{}}` 리터럴 출력 시 파싱 에러
+
+`v-text` 예제에서 `{{}}` 문자 자체를 화면에 출력해야 했는데, Vue 템플릿 컴파일러가 문자열 안의 `{{`를 실제 mustache 문법 시작으로 인식해 파싱 에러가 발생했습니다. HTML 엔티티(`&#123;&#123;&#125;&#125;`)로 우회해서 해결했습니다.
+
+### 폴더명 오타로 컴포넌트가 안 뜨는 문제
+
+`components/practices/` 하위 폴더를 만들던 중 `practices`를 `pratices`로 잘못 입력했는데, `App.vue`의 import 경로는 정상적인 `practices`를 가리키고 있어 화면에 아무것도 표시되지 않았습니다. 폴더명을 바로잡아 해결했습니다.
+
+### create-vue 초기 옵션 누락
+
+프로젝트를 처음 생성할 때 Router / Pinia / ESLint / Prettier 옵션을 켜지 않고 만들어, `package.json`에 필요한 패키지가 하나도 없는 상태였습니다. 옵션을 다시 확인해 프로젝트를 재생성했습니다.
+
+### Bloom 효과 과다 적용
+
+three.js 후처리(`UnrealBloomPass`)로 태양 발광 효과를 추가했는데, 초기 강도 설정이 너무 세서 카드 텍스트까지 하얗게 씻겨 보이는 문제가 있었습니다. `strength`, `threshold` 값을 낮추고 발광 오브젝트 크기·위치를 조정해 해결했습니다.
+
+### 구름이 저해상도 블록처럼 보이는 문제
+
+구름을 `IcosahedronGeometry`(디테일 0)로 표현했는데, 조명이 없는 재질 특성상 각진 면 경계가 그대로 드러나 블록처럼 보였습니다. 부드러운 원형 그라디언트 텍스처를 입힌 스프라이트로 교체해 해결했습니다.
+
+### Sprite geometry 공유로 인한 dispose 버그
+
+구름 스프라이트를 언마운트 시 정리하면서 `geometry.dispose()`까지 함께 호출했는데, three.js의 `Sprite`는 내부적으로 geometry를 모든 인스턴스가 공유한다는 것을 뒤늦게 알았습니다. 이 때문에 태양·달 발광 스프라이트까지 같이 깨지는 문제가 발생해, material만 정리하도록 수정했습니다.
+
+### Open-Meteo 지오코딩에서 한글 지명 검색 실패
+
+"서울"을 그대로 검색하면 결과가 0건으로 나왔습니다. "Seoul"로 검색하면 정상적으로 나오는 것을 확인하고, 자주 검색될 도시들을 영문명으로 매핑하는 테이블을 만들어 해결했습니다.
+
+### source.unsplash.com 서비스 종료
+
+배경 이미지를 `source.unsplash.com`의 키워드 기반 랜덤 이미지로 불러오려 했는데 503 에러가 발생했습니다. 확인해보니 해당 서비스가 종료된 상태였고, `images.unsplash.com`의 특정 사진 ID를 직접 링크하는 방식으로 변경했습니다.
+
+### 터미널 작업 디렉토리 꼬임
+
+`skala-vue/create-vue`처럼 잘못된 경로에 생성됐던 프로젝트를 지우고 `skala-vue` 바로 아래에 다시 만들었는데, 이미 열려 있던 터미널은 삭제된 경로를 그대로 가리키고 있어 `git add` 실행 시 "Unable to read current working directory" 에러가 발생했습니다. 올바른 경로로 다시 이동해 해결했습니다.
+
+## 체크리스트
+
+- [ ] GitHub push
+- [ ] 시크릿 창에서 로그인 없이 접속되는지 확인
+- [ ] 배포 후 위 링크 업데이트
