@@ -58,8 +58,9 @@ src/
 
 - [핸즈온 1 - Weather Mockup](docs/handson-01-weather-mockup.md) — v-for/v-if/양방향 바인딩/이벤트 수식어 실습 + three.js 인터랙티브 배경, Open-Meteo 실시간 날씨, 상세보기 모달
 - [핸즈온 2 - Weather Composition](docs/handson-02-weather-composition.md) — computed/watch/watchEffect 실습 + 즐겨찾기 기능
+- [핸즈온 3 - Weather Component](docs/handson-03-weather-component.md) — Weather Mockup을 4개 컴포넌트(+추가 3개)로 분리, props/emits/slot 실습
 
-나머지 핸즈온(Component 분리, Store, Axios, UI Library, Deployment)은 순서대로 진행 예정입니다.
+나머지 핸즈온(Router, Store, Axios, UI Library, Deployment)은 순서대로 진행 예정입니다.
 
 ## 체크리스트
 

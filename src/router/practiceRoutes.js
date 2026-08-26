@@ -17,6 +17,12 @@ export const practiceGroups = [
         label: 'Weather Composition',
         component: () => import('@/components/handson/WeatherComposition.vue'),
       },
+      {
+        path: '/handson/weather-component',
+        name: 'handson-weather-component',
+        label: 'Weather Component',
+        component: () => import('@/components/handson/WeatherParent.vue'),
+      },
     ],
   },
   {
