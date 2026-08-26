@@ -34,9 +34,13 @@ src/
 
 `create-vue`로 Router/Pinia 옵션을 켜서 프로젝트를 생성하고, 컴포넌트를 `components/code-challenge/` 하위에 정리했습니다. 슬라이드에 나온 반응형 데이터·Text Interpolation과 v-html / v-html XSS / v-text / v-bind(기본·Class·Style·단축) / v-if·v-else-if·v-else / v-show / v-for / v-pre / v-cloak / v-once / v-memo를 각각 별도 컴포넌트로 구현했습니다(총 16개). v-html XSS 데모는 실제로 스크립트가 실행되는 예제라 별도 페이지로 분리했습니다.
 
-**라우터 적용**
+**2일차 - Event Handling, Form Handling, Composition API (~watchEffect)**
 
-실습 페이지 수가 늘어나면서 Vue Router와 사이드바 메뉴를 도입했습니다. `practiceRoutes.js` 한 파일에 라우트 목록과 사이드바 메뉴 정보를 같이 정의해서, 페이지 추가 시 한 곳만 수정하면 되도록 만들었습니다.
+Vue Event Handling(v-on, Event Object, Event Modifier), Vue Form Handling(v-model 3종, Vue Style), Composition API(ref/reactive, computed, watch 4종, watchEffect) Code Challenge를 구현했습니다.
+
+**3일차 - Vue Components, Router**
+
+Vue Components(Lifecycle Hook, Props & Emits, Slot 3종) Code Challenge를 구현했습니다. 실습 페이지 수가 늘어나면서 이 단계에서 Vue Router와 사이드바 메뉴도 함께 도입했습니다. `practiceRoutes.js` 한 파일에 라우트 목록과 사이드바 메뉴 정보를 같이 정의해서, 페이지 추가 시 한 곳만 수정하면 되도록 만들었습니다.
 
 ## Code Challenge
 
@@ -59,8 +63,9 @@ src/
 - [핸즈온 1 - Weather Mockup](docs/handson-01-weather-mockup.md) — v-for/v-if/양방향 바인딩/이벤트 수식어 실습 + three.js 인터랙티브 배경, Open-Meteo 실시간 날씨, 상세보기 모달
 - [핸즈온 2 - Weather Composition](docs/handson-02-weather-composition.md) — computed/watch/watchEffect 실습 + 즐겨찾기 기능
 - [핸즈온 3 - Weather Component](docs/handson-03-weather-component.md) — Weather Mockup을 4개 컴포넌트(+추가 3개)로 분리, props/emits/slot 실습
+- [핸즈온 4 - Weather Router](docs/handson-04-weather-router.md) — 동적 라우트(`:cityId`), Programmatic Navigation, Catch-all Route, Lazy Loading
 
-나머지 핸즈온(Router, Store, Axios, UI Library, Deployment)은 순서대로 진행 예정입니다.
+나머지 핸즈온(Store, Axios, UI Library, Deployment)은 순서대로 진행 예정입니다.
 
 ## 체크리스트
 

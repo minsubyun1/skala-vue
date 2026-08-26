@@ -23,6 +23,12 @@ export const practiceGroups = [
         label: 'Weather Component',
         component: () => import('@/components/handson/WeatherParent.vue'),
       },
+      {
+        path: '/handson/weather-router',
+        name: 'handson-weather-router',
+        label: 'Weather Router',
+        component: () => import('@/views/WeatherHomeView.vue'),
+      },
     ],
   },
   {
