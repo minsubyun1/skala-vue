@@ -27,6 +27,47 @@ Weather Mockup(핸즈온 1)과 완전히 같은 기능을 새 라우트(`/handso
 
 여기에 핸즈온 1에서 이미 분리해뒀던 `WeatherScene.vue`(three.js 배경), `WeatherGlyph.vue`(아이콘), `WeatherDetailModal.vue`(상세보기 모달)도 그대로 재사용했습니다.
 
+## 컴포넌트 구조도
+
+### 1) 렌더링 구조
+
+```mermaid
+graph TD
+    WP["WeatherParent<br/>모든 반응형 상태"]
+    WP --> NP[NowPanel]
+    WP --> LWP[LiveWeatherPanel]
+    WP --> BDC1["BaseDashboardCard<br/>검색 영역"]
+    BDC1 -.->|slot| SB[SearchBar]
+    WP --> ACF[AddCityForm]
+    WP --> BDC2["BaseDashboardCard<br/>목록 영역"]
+    BDC2 -.->|"slot, v-for"| WC[WeatherCard]
+    WP --> WDM[WeatherDetailModal]
+    WP --> WS[WeatherScene]
+```
+
+### 2) 데이터 흐름
+
+```mermaid
+graph TD
+    WP["WeatherParent"]
+
+    WP -->|"props: readout"| NP[NowPanel]
+
+    WP -->|"props: isLoading / error / result"| LWP[LiveWeatherPanel]
+    LWP -.->|"emit: search"| WP
+
+    WP -->|"props: searchQuery"| SB[SearchBar]
+    SB -.->|"emit: update-query"| WP
+
+    WP -->|"props: statusOptions"| ACF[AddCityForm]
+    ACF -.->|"emit: add-city"| WP
+
+    WP -->|"props: city"| WC[WeatherCard]
+    WC -.->|"emit: select-card / click-detail"| WP
+```
+
+실선(→)은 props, 점선(⇢)은 emit입니다. 두 그림을 나눠서 그린 이유가 있는데, 첫 번째 그림에서는 `SearchBar`와 `WeatherCard`가 `BaseDashboardCard` 밑에 매달려 있는 것처럼 보이지만, 두 번째 그림에서는 이 둘의 props/emit 화살표가 `BaseDashboardCard`를 그냥 건너뛰고 `WeatherParent`와 직접 연결됩니다. 위에서 설명한 슬롯 스코프 규칙(슬롯 콘텐츠는 부모 스코프에서 컴파일된다)이 그림으로도 드러나는 부분입니다.
+
 ## 적용한 핵심 개념
 
 ### 왜 컴포넌트를 나누는가
