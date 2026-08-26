@@ -30,15 +30,26 @@ src/
 
 ## 구현 내용
 
-### 폴더 구조는 요구사항 그대로 따랐습니다
+### 1. Vue Router 설정
 
-처음에 `BaseDashboardCard`/`SearchBar`/`WeatherCard`를 핸즈온 3에서 쓰던 `components/handson/` 걸 재사용하려고 했는데, 슬라이드가 `components/exercise/`라는 이름으로 명시해뒀길래 재사용 대신 그 이름으로 새로 만들었습니다(내용은 기존 것과 동일). `WeatherGlyph`/`AddCityForm`/`LiveWeatherPanel`/`NowPanel`/`WeatherScene`처럼 슬라이드에 이름이 안 나온 것들은 계속 `components/handson/`에 둡니다.
+모든 라우트를 `() => import(...)`로 등록해서 지연 로딩은 이미 되어 있던 상태였고, 여기에 Catch-all Route를 라우트 배열 가장 마지막에 추가했습니다.
 
-### App.vue의 Navigation Bar 요구사항
+```js
+// router/index.js
+{
+  path: '/:pathMatch(.*)*',
+  name: 'not-found',
+  component: () => import('../views/NotFoundView.vue'),
+}
+```
 
-이 프로젝트는 처음부터 `App.vue`에 사이트 전체 사이드바(`RouterLink` 모음)와 `RouterView`가 이미 있어서, 요구사항 2번은 기존 구조로 이미 충족됩니다. 다만 사이드바는 전체 실습 목록용이라 Weather Router 전용 내비게이션과는 성격이 다르다고 판단해서, `WeatherRouterNav.vue`라는 작은 내비게이션 바를 따로 만들어 `WeatherHomeView`/`WeatherAboutView`/`WeatherDetailView`/`WeatherStatsView` 화면 안에 공통으로 넣었습니다. `<RouterLink>`로 홈/소개/통계를 오가는 실제 요구사항(Navigation Bar)은 이 컴포넌트가 담당합니다.
+정의되지 않은 아무 경로로나 들어가면 `NotFoundView`가 뜨는 걸 확인했습니다. `weather-router` 하위 경로 전용 catch-all을 따로 만들지는 않았는데, 이 라우트 하나가 앱 전체의 모든 미정의 경로를 이미 커버합니다.
 
-### WeatherHomeView - Programmatic Navigation
+### 2. App.vue - Navigation Bar / RouterView
+
+`App.vue`에는 이미 사이트 전체 사이드바(`RouterLink` 모음)랑 `RouterView`가 있어서 그건 그대로 두고, 대신 `WeatherRouterNav.vue`라는 작은 내비게이션 바를 따로 만들어 `WeatherHomeView`/`WeatherAboutView`/`WeatherDetailView`/`WeatherStatsView`에 공통으로 넣었습니다(사이드바는 전체 실습 목록용이라 이 네 화면끼리만 오가는 용도로는 안 맞았습니다). 홈/소개/통계를 오가는 `<RouterLink>`는 이 컴포넌트가 담당합니다.
+
+### 3. WeatherHomeView.vue
 
 핸즈온 3의 `WeatherParent.vue`를 그대로 가져오고, 상세보기 버튼 핸들러만 바꿨습니다.
 
@@ -54,7 +65,9 @@ function handleClickDetail(city) {
 }
 ```
 
-### WeatherDetailView - 동적 라우트 + Mock Data
+여기서 쓰는 `BaseDashboardCard`/`SearchBar`/`WeatherCard`는 핸즈온 3의 `components/handson/` 걸 재사용하지 않고 `components/exercise/`에 새로 만들었습니다(내용은 동일). 슬라이드 폴더 트리가 그 이름을 콕 집어놨는데 처음엔 그냥 지나쳤다가 다시 맞췄습니다.
+
+### 4. WeatherDetailView.vue
 
 ```js
 const route = useRoute()
@@ -66,24 +79,15 @@ onMounted(() => {
 })
 ```
 
-`WeatherHomeView`와 `WeatherDetailView`는 서로 다른 라우트, 즉 서로 다른 컴포넌트 인스턴스라서 메모리를 공유하지 않습니다. 그래서 두 화면이 같이 참조할 수 있는 정적 목데이터 모듈(`src/data/weatherMockData.js`)을 따로 빼뒀습니다. 홈 화면에서 "나만의 도시 추가하기"로 새로 만든 도시는 이 목데이터에는 없어서, 그 도시의 상세보기로 들어가면 "관측 데이터를 찾을 수 없습니다" 안내가 뜨도록 처리했습니다 — 실제 서비스라면 API 호출로 대체될 부분이라, 요구사항 문구("Mock Data를 임시로 활용")에 맞춰 이 정도 선에서 정리했습니다.
+`WeatherHomeView`와 `WeatherDetailView`는 서로 다른 라우트, 즉 서로 다른 컴포넌트 인스턴스라서 메모리를 공유하지 않습니다. 그래서 두 화면이 같이 참조할 수 있는 정적 목데이터 모듈(`src/data/weatherMockData.js`)을 따로 빼뒀습니다. 홈 화면에서 "나만의 도시 추가하기"로 새로 만든 도시는 이 목데이터에는 없어서, 그 도시의 상세보기로 들어가면 "관측 데이터를 찾을 수 없습니다" 안내가 뜨도록 처리했습니다 — 실제 서비스라면 API 호출로 대체될 부분입니다.
 
-### Catch-all Route
+### 5. WeatherAboutView.vue
 
-```js
-// router/index.js, routes 배열의 가장 마지막
-{
-  path: '/:pathMatch(.*)*',
-  name: 'not-found',
-  component: () => import('../views/NotFoundView.vue'),
-}
-```
+서비스 소개 텍스트와 메인 대시보드로 돌아가는 링크만 있는 정적 페이지입니다.
 
-정의되지 않은 아무 경로로나 들어가면 `NotFoundView`가 뜨는 걸 확인했습니다. `weather-router` 하위 경로 전용 catch-all을 따로 만들지는 않았는데, 이 라우트 하나가 앱 전체의 모든 미정의 경로를 이미 커버하기 때문입니다.
+### 6. 본인 추가 view - WeatherStatsView.vue
 
-### 본인 추가 view - WeatherStatsView
-
-요구사항 6번에 맞춰 통계 페이지를 하나 더 만들었습니다. 목데이터를 computed로 가공해서 평균 기온·최고/최저 기온 도시·날씨 상태별 도시 수를 보여줍니다. 별도 상태 없이 순수 계산만 하는 페이지라 `computed()` 활용 사례를 하나 더 늘린 셈입니다.
+통계 페이지를 하나 더 만들었습니다. 목데이터를 computed로 가공해서 평균 기온·최고/최저 기온 도시·날씨 상태별 도시 수를 보여줍니다. 별도 상태 없이 순수 계산만 하는 페이지라 `computed()` 활용 사례를 하나 더 늘린 셈입니다.
 
 ## 검증
 
