@@ -1,18 +1,22 @@
 <script setup>
-import SlotCard from './SlotCard.vue'
+import SlotDefaultChild from './SlotDefaultChild.vue'
 </script>
 
 <template>
   <div class="practice-section">
-    <h2>Default Slot Example</h2>
+    <h2>Default Slot 레이아웃 주입 실습</h2>
+    <SlotDefaultChild>
+      <p>단순한 텍스트 문장을 주입합니다.</p>
+    </SlotDefaultChild>
+    <SlotDefaultChild>
+      <h2 style="color: #e74c3c">🔥 경고 상태</h2>
+      <button>확인</button>
+    </SlotDefaultChild>
+    <SlotDefaultChild></SlotDefaultChild>
     <p class="hint">
-      이름 없는 <code>&lt;slot&gt;</code> 자리에, 부모가 태그 사이에 적은 내용이 그대로 들어갑니다.
+      마지막 카드는 부모가 아무 내용도 넣지 않아서, 자식의 <code>&lt;slot&gt;</code> 태그 안에
+      적어둔 기본 콘텐츠("기본 콘텐츠 영역입니다.")가 대신 보입니다.
     </p>
-
-    <SlotCard>
-      <p>부모가 전달한 기본 슬롯 내용입니다.</p>
-      <button>부모가 넣은 버튼도 그대로 렌더링됩니다</button>
-    </SlotCard>
   </div>
 </template>
 
@@ -20,6 +24,5 @@ import SlotCard from './SlotCard.vue'
 .hint {
   font-size: 0.85rem;
   opacity: 0.75;
-  margin-bottom: 14px;
 }
 </style>

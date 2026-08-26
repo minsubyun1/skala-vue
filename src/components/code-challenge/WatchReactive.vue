@@ -1,25 +1,61 @@
 <script setup>
 import { reactive, ref, watch } from 'vue'
 
-// reactive 객체를 직접 watch하면, ref와 달리 별도 옵션 없이도 기본적으로 deep 감시가 된다.
-const state = reactive({ name: '홍길동', age: 20 })
-const log = ref([])
-
-watch(state, () => {
-  log.value.unshift(`age = ${state.age} (deep 옵션 없이도 감지됨)`)
+// reactive로 선언한 묶음 상품 데이터
+const state = reactive({
+  productName: '노트북',
+  price: 1000,
 })
+
+const logAutoDeep = ref('대기 중...')
+const logTarget = ref('대기 중...')
+
+// 1) 변수명 그대로 감시 (자동 deep: true 작동)
+watch(state, (newVal, oldVal) => {
+  // newVal.price와 oldVal.price가 똑같이 나옵니다!
+  logAutoDeep.value = `[자동 deep] 가격 변동! 이전가격인척하는:${oldVal.price}원 ➡️ 현재가격:${newVal.price}원`
+})
+
+// 2) 화살표 함수로 특정 속성만 감시 (이전 값 추적 가능!)
+watch(
+  () => state.price,
+  (newPrice, oldPrice) => {
+    // 특정 알맹이 값만 추출했으므로 진짜 과거 가격이 정상 보존됩니다.
+    logTarget.value = `[타겟 조준] 가격이 진짜 올랐음! 옛날값:${oldPrice}원 ➡️ 바뀐값:${newPrice}원`
+  },
+)
 </script>
 
 <template>
   <div class="practice-section">
-    <h2>watch() - reactive 반응형 데이터 감시 Example</h2>
+    <h2>reactive() 데이터 watch 감시 규칙</h2>
+    <h3>🛒 상품 정보 관리 (reactive)</h3>
+    <p>상품명: {{ state.productName }} / 가격: {{ state.price }}원</p>
+    <button @click="state.price += 500">가격 500원 인상</button>
 
-    <p>{{ state.name }} ({{ state.age }}세)</p>
-    <button @click="state.age++">나이 증가</button>
+    <div class="monitor">
+      <p>👁️‍🗨️ 1) state 변수 통째로 감시 (deep 자동화)</p>
+      <p>{{ logAutoDeep }}</p>
+      <small>※ 주의: 이전 값과 현재 값이 똑같이 찍힌다.</small>
+    </div>
 
-    <h3>로그</h3>
-    <ul>
-      <li v-for="(entry, index) in log" :key="index">{{ entry }}</li>
-    </ul>
+    <div class="monitor target">
+      <p>🎯 2) () => state.price 콕 집어 감시 (과거 추적)</p>
+      <p>{{ logTarget }}</p>
+      <small>※ 성공: 과거의 원본 가격이 칼같이 보존된다.</small>
+    </div>
   </div>
 </template>
+
+<style scoped>
+.monitor {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+.monitor.target {
+  border-color: #42b883;
+}
+</style>

@@ -1,51 +1,30 @@
 <script setup>
-import { ref } from 'vue'
-
-const log = ref([])
-function push(msg) {
-  log.value.unshift(msg)
-  if (log.value.length > 8) log.value.pop()
+const handleLink = () => {
+  alert('수식어 덕분에 네이버로 이동하지 않고 함수만 실행됩니다!')
+}
+const handleBox = () => {
+  alert('부모 박스가 클릭되었습니다!')
+}
+const handleChild1 = () => {
+  alert('1번 자식 클릭!')
+}
+const handleChild2 = () => {
+  alert('2번 자식(나만 켜짐) 클릭!')
 }
 </script>
 
 <template>
   <div class="practice-section">
-    <h2>이벤트 수식어(Event Modifier) 학습</h2>
+    <h2>이벤트 수식어(Modifiers) 학습</h2>
+    <h3>1) .prevent (기본 동작 막기)</h3>
+    <a href="https://www.naver.com" @click.prevent="handleLink">네이버 링크</a>
+    <br />
 
-    <h3>1) .stop - 버블링 중단</h3>
-    <div class="box" @click="push('부모 영역 클릭됨')">
-      부모 영역
-      <button @click.stop="push('자식 버튼 클릭 (버블링 안 됨)')">자식 버튼</button>
+    <h3>2) .stop (이벤트 버블링 막기)</h3>
+    <div @click="handleBox" style="padding: 20px; background-color: #eee">
+      <p>부모 영역 (클릭 시 alert 발동)</p>
+      <button @click="handleChild1">버블링 발생 버튼</button>
+      <button @click.stop="handleChild2">버블링 차단 버튼</button>
     </div>
-
-    <h3>2) .prevent - 기본 동작 방지</h3>
-    <form @submit.prevent="push('폼이 제출됐지만 새로고침은 발생하지 않음 (.prevent)')">
-      <button type="submit">제출</button>
-    </form>
-
-    <h3>3) .once - 한 번만 실행</h3>
-    <button @click.once="push('이 버튼은 한 번만 반응함')">한 번만 반응하는 버튼</button>
-
-    <h3>4) .enter - 키 수식어</h3>
-    <input @keyup.enter="push('Enter 키가 눌림')" placeholder="Enter를 눌러보세요" />
-
-    <h3>로그</h3>
-    <ul class="log-list">
-      <li v-for="(entry, index) in log" :key="index">{{ entry }}</li>
-    </ul>
   </div>
 </template>
-
-<style scoped>
-.box {
-  padding: 16px;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  margin-bottom: 8px;
-}
-
-.log-list {
-  font-size: 0.9rem;
-  opacity: 0.85;
-}
-</style>

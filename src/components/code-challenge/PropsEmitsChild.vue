@@ -1,38 +1,35 @@
 <script setup>
-// Props: 부모 -> 자식 (하행선)
+// 1. 상위 컴포넌트로부터 주입받을 데이터의 자료형 및 필수 여부 정의
 defineProps({
-  title: { type: String, required: true },
-  count: { type: Number, default: 0 },
+  parentData: {
+    type: String,
+    required: true,
+  },
 })
 
-// Emits: 자식 -> 부모 (상행선)
-const emit = defineEmits(['increment', 'reset'])
+// 2. 상위 컴포넌트로 송신할 커스텀 이벤트 식별자 등록
+const emit = defineEmits(['update-request'])
+
+// 3. 내부 이벤트 발생 시 페이로드를 실어 상위로 이벤트를 디스패치하는 함수
+const sendNotification = () => {
+  const payload = 'Child에서 가공한 새로운 데이터'
+  emit('update-request', payload)
+}
 </script>
 
 <template>
-  <div class="child-card">
-    <p class="child-title">{{ title }}</p>
-    <p class="child-count">{{ count }}</p>
-    <button @click="emit('increment')">+1 (부모에게 이벤트 전달)</button>
-    <button @click="emit('reset')">reset</button>
+  <div class="child-container">
+    <h2>하위 컴포넌트 (Child)</h2>
+    <p>수신된 Props 데이터: <strong>{{ parentData }}</strong></p>
+    <br />
+    <button @click="sendNotification">상위 컴포넌트로 갱신 요청 (Emit)</button>
   </div>
 </template>
 
 <style scoped>
-.child-card {
+.child-container {
   border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 14px 16px;
-  text-align: center;
-}
-
-.child-title {
-  font-weight: 700;
-}
-
-.child-count {
-  font-size: 1.4rem;
-  font-weight: 800;
-  margin: 6px 0;
 }
 </style>

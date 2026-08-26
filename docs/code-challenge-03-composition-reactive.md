@@ -8,14 +8,15 @@
 
 ## ref()
 
-원시값(숫자, 문자열)을 반응형으로 감싸고 `.value`로 읽고 씁니다. 객체를 `ref()`로 감싸는 것도 가능한데, 이 경우 내부적으로 `reactive()`가 한 번 더 적용됩니다.
+원시값(count), 문자열(name, `v-model`로 양방향 바인딩), boolean(isActive), 배열(items), 객체(user)까지 - 원시값이든 객체든 전부 `ref()` 하나로 감쌀 수 있다는 걸 보여줍니다.
 
 ## reactive()
 
-객체·배열 전용입니다. `.value` 없이 프로퍼티에 바로 접근합니다. 다만 `reactive()`로 만든 객체를 통째로 다른 변수에 재할당하면 반응성이 끊기는 제약이 있어서, 원시값 하나만 다룰 땐 `ref()`를 더 자주 씁니다.
+객체·배열 전용입니다. `.value` 없이 프로퍼티에 바로 접근합니다.
 
 ```js
-const state = reactive({ count: 0, user: { name: '홍길동', age: 20 }, todos: [] })
-state.count++          // OK - 반응형 유지
-state.todos.push('할 일') // OK - 배열도 반응형
+const userReactive = reactive({ name: '이순신', age: 30 })
+const items = reactive(['사과', '바나나'])
 ```
+
+다만 `reactive()`로 만든 객체를 통째로 다른 값으로 재할당(`state = {...}`)하면 반응성 연결이 끊기는 제약이 있어서, 실무에서는 원시값뿐 아니라 객체를 다룰 때도 `ref()`로 통일하는 경우가 많다고 슬라이드에 나와 있습니다.

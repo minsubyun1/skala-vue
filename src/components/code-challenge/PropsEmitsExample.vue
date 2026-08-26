@@ -2,38 +2,32 @@
 import { ref } from 'vue'
 import PropsEmitsChild from './PropsEmitsChild.vue'
 
-const counter = ref(0)
+// 1. 상위 컴포넌트의 로컬 반응형 상태 정의
+const message = ref('Parent 초기 메시지')
 
-function handleIncrement() {
-  counter.value++
-}
-function handleReset() {
-  counter.value = 0
+// 2. 하위 컴포넌트의 커스텀 이벤트를 수신했을 때 실행될 핸들러 함수
+// 인자(newValue)로 하위 컴포넌트가 보낸 페이로드가 자동 주입됩니다.
+const handleUpdateRequest = (newValue) => {
+  message.value = newValue
 }
 </script>
 
 <template>
   <div class="practice-section">
-    <h2>Props &amp; Emits Example</h2>
-    <p class="hint">
-      "데이터는 위에서 아래로(Props), 이벤트는 아래에서 위로(Emits)" 구조를 그대로 보여주는
-      예제입니다. 부모가 <code>title</code>/<code>count</code>를 자식에게 내려주고, 자식은
-      버튼 클릭을 <code>increment</code>/<code>reset</code> 이벤트로 부모에게 쏘아 올립니다.
-    </p>
-
-    <PropsEmitsChild
-      title="공용 카운터"
-      :count="counter"
-      @increment="handleIncrement"
-      @reset="handleReset"
-    />
+    <h2>Props & Emits</h2>
+    <div class="parent-container">
+      <h2>상위 컴포넌트 (Parent)</h2>
+      <p>현재 로컬 데이터(State): <strong>{{ message }}</strong></p>
+      <br />
+      <PropsEmitsChild :parent-data="message" @update-request="handleUpdateRequest" />
+    </div>
   </div>
 </template>
 
 <style scoped>
-.hint {
-  font-size: 0.85rem;
-  opacity: 0.75;
-  margin-bottom: 14px;
+.parent-container {
+  padding: 14px 16px;
+  border: 1px dashed var(--color-border-hover);
+  border-radius: 8px;
 }
 </style>

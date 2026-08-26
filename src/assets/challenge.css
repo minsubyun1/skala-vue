@@ -1,0 +1,9 @@
+.btn-external {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: #42b883;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}

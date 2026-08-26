@@ -1,39 +1,41 @@
 <script setup>
 import { reactive } from 'vue'
 
-// reactive()는 객체/배열 전용이다. .value 없이 프로퍼티에 바로 접근한다.
-const state = reactive({
-  count: 0,
-  user: { name: '홍길동', age: 20 },
-  todos: ['Vue 공부하기'],
-})
+const userReactive = reactive({ name: '이순신', age: 30 })
+const celebrateReactive = () => {
+  userReactive.age++
+}
 
-function addTodo() {
-  state.todos.push(`할 일 ${state.todos.length + 1}`)
+const items = reactive(['사과', '바나나'])
+const addItem = () => {
+  items.push(`과일 ${items.length + 1}`)
+}
+const removeItem = (index) => {
+  items.splice(index, 1)
 }
 </script>
 
 <template>
   <div class="practice-section">
-    <h2>reactive() Example</h2>
+    <h2>반응형 상태 reactive() 특징 및 주의점</h2>
 
-    <h3>1) 프로퍼티 직접 접근 (.value 없음)</h3>
-    <p>count: {{ state.count }}</p>
-    <button @click="state.count++">count++</button>
+    <h3>1) 객체(Object) reactive</h3>
+    <p>이름: {{ userReactive.name }} / 나이: {{ userReactive.age }}세</p>
+    <button @click="celebrateReactive">reactive 나이 한 살 추가</button>
 
-    <h3>2) 중첩 객체도 그대로 반응형</h3>
-    <p>{{ state.user.name }} ({{ state.user.age }}세)</p>
-    <button @click="state.user.age++">나이 증가</button>
-
-    <h3>3) 배열도 반응형</h3>
+    <h3>2) 배열(Array) reactive</h3>
     <ul>
-      <li v-for="(todo, index) in state.todos" :key="index">{{ todo }}</li>
+      <li v-for="(item, index) in items" :key="index">
+        {{ item }}
+        <button @click="removeItem(index)" style="margin-left: 8px; padding: 2px 6px">삭제</button>
+      </li>
     </ul>
-    <button @click="addTodo">할 일 추가</button>
+    <button @click="addItem">과일 항목 추가</button>
 
     <p class="hint">
-      reactive()로 만든 객체는 통째로 다른 변수에 재할당하면 반응성이 끊긴다는 제약이 있어서,
-      원시값 하나만 다룰 땐 ref()를 더 많이 쓴다.
+      reactive로 선언된 객체나 배열은 통째로 새 값으로 재할당(<code>state = {...}</code>)하면
+      반응성 연결이 끊깁니다. 내부 프로퍼티만 조심스럽게 바꾸거나, 배열이라면 push/splice 같은
+      메서드로 다뤄야 합니다.
     </p>
   </div>
 </template>

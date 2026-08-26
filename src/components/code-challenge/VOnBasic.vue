@@ -1,28 +1,20 @@
 <script setup>
 import { ref } from 'vue'
+const count = ref(0)
 
-const clickCount = ref(0)
-function increment() {
-  clickCount.value++
-}
-
-function greet(name) {
-  window.alert(`안녕하세요, ${name}님!`)
+const showAlert = () => {
+  alert('함수가 성공적으로 호출되었습니다!')
 }
 </script>
 
 <template>
   <div class="practice-section">
-    <h2>v-on 이벤트 핸들러 학습</h2>
-
-    <h3>1) 메서드 핸들러</h3>
-    <p>클릭 횟수: {{ clickCount }}</p>
-    <button @click="increment">클릭 (메서드 방식)</button>
-
-    <h3>2) 인라인 핸들러</h3>
-    <button @click="clickCount += 10">클릭 (인라인 방식, +10)</button>
-
-    <h3>3) 인라인 핸들러에서 인자 전달</h3>
-    <button @click="greet('Skala')">인자를 전달하는 인라인 핸들러</button>
+    <h2>v-on 이벤트 핸들링 기초</h2>
+    <h3>1) 인라인 연산 처리</h3>
+    <p>현재 카운트: {{ count }}</p>
+    <button @click="count++">1씩 증가</button>
+    <br />
+    <h3>2) 스크립트 함수 호출</h3>
+    <button @click="showAlert">알림창 띄우기</button>
   </div>
 </template>

@@ -1,30 +1,41 @@
 <script setup>
 import { ref } from 'vue'
 
-const normalValue = ref('')
-const lazyValue = ref('')
-const numberValue = ref(0)
-const trimValue = ref('')
+const lazyText = ref('')
+const age = ref('')
+const userEmail = ref('')
+const price = ref('')
 </script>
 
 <template>
   <div class="practice-section">
-    <h2>v-model Modifiers 학습</h2>
+    <h2>v-model 수식어 (Modifiers) 활용</h2>
 
-    <h3>1) 기본 (입력할 때마다 즉시 반영)</h3>
-    <input v-model="normalValue" placeholder="타이핑하는 즉시 반영" />
-    <p>값: "{{ normalValue }}"</p>
+    <section style="margin-bottom: 20px">
+      <h3>1) .lazy 수식어 (change 이벤트 시점 반영)</h3>
+      <input type="text" v-model.lazy="lazyText" placeholder="입력 후 Enter 또는 외부 클릭" />
+      <p>실시간이 아닌 확정된 값: <strong>{{ lazyText }}</strong></p>
+    </section>
 
-    <h3>2) .lazy - change 이벤트 시점에만 반영</h3>
-    <input v-model.lazy="lazyValue" placeholder="포커스를 벗어나야 반영" />
-    <p>값: "{{ lazyValue }}"</p>
+    <section style="margin-bottom: 20px">
+      <h3>2) .number 수식어 (Number 타입 자동 형변환)</h3>
+      <input type="text" v-model.number="age" placeholder="나이를 입력하세요" />
+      <p>입력된 값: <strong>{{ age }}</strong></p>
+      <p>데이터 타입: <strong>{{ typeof age }}</strong></p>
+    </section>
 
-    <h3>3) .number - 문자열 대신 숫자로 변환</h3>
-    <input v-model.number="numberValue" type="text" placeholder="숫자를 입력해 보세요" />
-    <p>값: {{ numberValue }} (타입: {{ typeof numberValue }})</p>
+    <section style="margin-bottom: 20px">
+      <h3>3) .trim 수식어 (양끝 공백 자동 제거)</h3>
+      <input type="text" v-model.trim="userEmail" placeholder="앞뒤 공백을 포함해 입력해 보세요" />
+      <p>공백 제거된 값: <strong>"{{ userEmail }}"</strong></p>
+      <p>문자열 길이: <strong>{{ userEmail.length }}</strong></p>
+    </section>
 
-    <h3>4) .trim - 앞뒤 공백 제거</h3>
-    <input v-model.trim="trimValue" placeholder="앞뒤에 공백을 넣어보세요" />
-    <p>값: "{{ trimValue }}" (길이: {{ trimValue.length }})</p>
+    <section>
+      <h3>4) Chaining (수식어 체이닝: .trim.number)</h3>
+      <input type="text" v-model.trim.number="price" placeholder="공백과 숫자를 섞어 입력해 보세요" />
+      <p>처리된 값: <strong>"{{ price }}"</strong></p>
+      <p>데이터 타입: <strong>{{ typeof price }}</strong></p>
+    </section>
   </div>
 </template>

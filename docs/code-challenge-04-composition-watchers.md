@@ -6,9 +6,24 @@
 
 슬라이드 요구 항목: computed() / watch() / watch() Multi-Source / watch() Deep Watch / watch() reactive 감시 / watchEffect()
 
+이 6개는 슬라이드에 실제 코드가 그대로 실려 있어서, 변수명·콘솔 로그 문구까지 원본 그대로 옮겼습니다.
+
 ## computed()
 
-`price * quantity`처럼 다른 반응형 값에서 파생되는 값을 계산합니다. 의존하는 값이 안 바뀌면 다시 계산하지 않고 캐싱된 값을 그대로 씁니다.
+`price * quantity` 같은 계산이 아니라, **캐싱 동작 자체**를 증명하는 예제입니다. `count`에 의존하는 `computed`와, `count`만 참조하지만 `computed`가 아닌 일반 함수를 나란히 두고, 둘 다 템플릿에서 호출되게 했습니다.
+
+```js
+const getMethodResult = () => {
+  console.log('❌ 일반 함수 실행됨!')
+  return count.value * 2
+}
+const doubleCount = computed(() => {
+  console.log('✅ Computed 연산 실행됨!')
+  return count.value * 2
+})
+```
+
+`count`를 증가시키면 두 로그가 다 찍히지만, `count`와 무관한 `dummy`를 증가시키면(컴포넌트가 리렌더링되긴 하므로) 일반 함수 로그만 찍히고 computed 로그는 안 찍힙니다. computed가 캐싱된 값을 재사용한다는 증거입니다.
 
 ## watch()
 
@@ -19,24 +34,25 @@
 배열로 여러 소스를 한 번에 넘기면, 콜백도 각 소스의 새 값/이전 값을 배열로 받습니다.
 
 ```js
-watch([firstName, lastName], ([newFirst, newLast], [oldFirst, oldLast]) => { ... })
+watch([city, dateType], ([newCity, newDate], [oldCity, oldDate]) => { ... })
 ```
 
 ## watch() Deep Watch
 
-`watch(someRef, cb)`처럼 ref를 직접 감시 소스로 넘기면, `.value` 자체가 재할당될 때만 반응하고 내부 프로퍼티 변경(`user.value.age++`)에는 반응하지 않습니다. `{ deep: true }`를 추가하면 내부 프로퍼티 변경까지 추적합니다.
+이 예제가 저한테는 제일 까다로웠습니다. 처음엔 "얕은 watch는 안 잡히고 deep:true는 잡힌다"는 단순 비교로 만들었는데, 슬라이드가 실제로 말하는 요점은 그게 아니라 **"deep:true를 쓰면 newValue와 oldValue가 똑같이 최신 값으로 나와서 과거 값을 못 본다"**는 것이었습니다. 대신 감시 대상을 `() => user.value.age`처럼 getter로 콕 집으면 예전 값이 정상 보존됩니다.
 
-이 페이지는 얕은 watch와 deep watch를 나란히 두고 같은 조작(나이만 증가 / 객체 통째로 교체)에 대해 각각 어떻게 반응하는지 직접 비교할 수 있게 만들었습니다. 실제로 브라우저에서 클릭해서 확인한 결과:
+```js
+// deep: true - 반응은 하지만 예전 값을 못 봄
+watch(user, (newVal) => { ... }, { deep: true })
 
-| 조작 | 얕은 watch | deep watch |
-|---|---|---|
-| `user.age++` (내부 프로퍼티만 변경) | 반응 안 함 | 반응함 |
-| `user = { ... }` (객체 통째로 교체) | 반응함 | 반응함 |
+// 타겟 getter - 예전 값을 정상적으로 볼 수 있음
+watch(() => user.value.age, (newAge, oldAge) => { ... })
+```
 
 ## watch() - reactive 데이터 감시
 
-`reactive()`로 만든 객체를 직접 watch하면, `ref`와 달리 `{ deep: true }` 옵션 없이도 기본적으로 deep 감시가 적용됩니다.
+`reactive()` 객체는 `{ deep: true }` 없이도 기본적으로 deep 감시가 되지만, 마찬가지로 `newVal`/`oldVal`을 봐도 값이 똑같이 나오는 함정이 있습니다. 여기서도 특정 속성만 getter로 감시하면 예전 값을 볼 수 있다는 걸 나란히 비교합니다.
 
 ## watchEffect()
 
-감시 대상을 따로 지정하지 않고, 콜백 안에서 읽은 반응형 값을 자동으로 추적합니다. 컴포넌트가 마운트되는 즉시 1회 실행되고, 이후 참조한 값이 바뀔 때마다 다시 실행됩니다.
+감시 대상을 따로 지정하지 않고, 콜백 안에서 읽은 반응형 값(`username`, `age`)을 자동으로 추적합니다. 새로고침하자마자 버튼을 안 눌러도 로그가 이미 한 번 찍혀있다는 게 `watch()`와의 눈에 띄는 차이입니다.

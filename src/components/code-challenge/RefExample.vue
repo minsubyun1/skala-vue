@@ -1,28 +1,30 @@
 <script setup>
 import { ref } from 'vue'
-
-// ref()는 원시값(숫자, 문자열, boolean)을 반응형으로 감싼다. .value로 읽고 쓴다.
 const count = ref(0)
-const message = ref('안녕하세요')
+const name = ref('홍길동')
+const isActive = ref(true)
+const items = ref(['사과', '배'])
+const user = ref({ name: '이순신', age: 30 })
 
-// 객체도 ref()로 감쌀 수 있다 - 내부적으로 reactive()로 다시 한번 감싸진다.
-const user = ref({ name: '홍길동', age: 20 })
+const increaseRef = () => {
+  count.value++
+}
+const changeUserName = () => {
+  user.value.name = '장보고'
+}
 </script>
 
 <template>
   <div class="practice-section">
-    <h2>ref() Example</h2>
-
-    <h3>1) 원시값</h3>
-    <p>count: {{ count }}</p>
-    <button @click="count++">count++</button>
-
-    <h3>2) 문자열</h3>
-    <p>{{ message }}</p>
-    <button @click="message = message + '!'">느낌표 추가</button>
-
-    <h3>3) 객체를 담은 ref</h3>
-    <p>{{ user.name }} ({{ user.age }}세)</p>
-    <button @click="user.age++">나이 증가 (user.age++)</button>
+    <h2>반응형 상태 ref() 기초</h2>
+    <p>Ref 카운트: <strong>{{ count }}</strong></p>
+    <p>이름: <input v-model="name" />{{ name }}</p>
+    <p>활성 상태: {{ isActive ? '활성' : '비활성' }}</p>
+    <p>과일 목록: {{ items.join(', ') }}</p>
+    <p>사용자 정보: 이름 - {{ user.name }}, 나이 - {{ user.age }}</p>
+    <button @click="increaseRef">Ref 변수 증가</button>
+    <button @click="isActive = !isActive">토글</button>
+    <button @click="items.push('귤')">과일 추가</button>
+    <button @click="changeUserName">사용자 이름 변경</button>
   </div>
 </template>

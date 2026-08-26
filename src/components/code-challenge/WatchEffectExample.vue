@@ -1,40 +1,42 @@
 <script setup>
 import { ref, watchEffect } from 'vue'
 
-const a = ref(1)
-const b = ref(2)
-const log = ref([])
+const username = ref('홍길동')
+const age = ref(20)
+const logMessage = ref('대기 중...')
 
-// watchEffect는 감시 대상을 지정하지 않는다. 콜백 안에서 읽은 반응형 값을 자동으로 추적한다.
-// 컴포넌트가 마운트되는 즉시 1회 실행되고, 이후 a나 b가 바뀔 때마다 다시 실행된다.
+// watchEffect 가동: 감시 대상을 지정하는 파라미터가 없습니다!
 watchEffect(() => {
-  log.value.unshift(`a(${a.value}) + b(${b.value}) = ${a.value + b.value}`)
+  // Vue가 이 내부 코드를 읽고 'username'과 'age'를 자동으로 감시 리스트에 등록합니다.
+  logMessage.value = `[자동 감지] 이름: ${username.value} / 나이: ${age.value}세`
+
+  // 화면이 처음 켜질 때 1등으로 즉시 실행되는 증거를 콘솔에서 확인합니다.
+  console.log('🤖 watchEffect가 내부 변수 변경을 감지하여 실행되었습니다.')
 })
 </script>
 
 <template>
   <div class="practice-section">
-    <h2>watchEffect() Example</h2>
+    <h2>자동 감시자 watchEffect()</h2>
+    <p>이름: {{ username }} / 나이: {{ age }}세</p>
+    <button @click="username = '이순신'">이름을 '이순신'으로 변경</button>
+    <button @click="age++">나이 한 살 추가 (age++)</button>
 
-    <label>a: <input v-model.number="a" type="number" /></label>
-    <label>b: <input v-model.number="b" type="number" /></label>
-
-    <p class="hint">
-      콜백 안에서 <code>a.value</code>와 <code>b.value</code>를 둘 다 읽고 있어서, 둘 중 어느
-      쪽을 바꿔도 자동으로 다시 실행됩니다. watch()처럼 감시 대상을 따로 적을 필요가 없습니다.
-    </p>
-
-    <h3>실행 로그</h3>
-    <ul>
-      <li v-for="(entry, index) in log" :key="index">{{ entry }}</li>
-    </ul>
+    <div class="monitor">
+      <h3>👁️‍🗨️ watchEffect 자동 모니터링 시스템</h3>
+      <p>{{ logMessage }}</p>
+      <small style="color: gray">
+        ※ 새로고침하자마자 버튼을 안 눌러도 로그가 이미 찍혀있는 특징을 주목하세요!
+      </small>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.hint {
-  font-size: 0.85rem;
-  opacity: 0.75;
-  margin: 10px 0;
+.monitor {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
 }
 </style>
