@@ -42,7 +42,7 @@ const displayWind = computed(() => {
 
 <template>
   <div class="practice-section">
-    <h2>Hands on - Weather Router</h2>
+    <h2>Hands on - Weather Router / Store</h2>
     <div class="nav-row">
       <WeatherRouterNav />
       <UnitToggler />
