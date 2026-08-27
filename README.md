@@ -42,6 +42,10 @@ Vue Event Handling(v-on, Event Object, Event Modifier), Vue Form Handling(v-mode
 
 Vue Components(Lifecycle Hook, Props & Emits, Slot 3종) Code Challenge를 구현했습니다. 실습 페이지 수가 늘어나면서 이 단계에서 Vue Router와 사이드바 메뉴도 함께 도입했습니다. `practiceRoutes.js` 한 파일에 라우트 목록과 사이드바 메뉴 정보를 같이 정의해서, 페이지 추가 시 한 곳만 수정하면 되도록 만들었습니다.
 
+**4일차 - Pinia, 외부 API 확장, UI Library, 배포**
+
+Pinia로 온도/풍속 단위를 전역 상태로 관리하는 핸즈온 5(Weather Store)부터 시작해서, OpenWeatherMap·ipwho.is 외부 API 3개 연동에 Leaflet 지도로 관심 지역을 추가하는 기능까지 붙인 핸즈온 6(Weather Axios), Element Plus를 Weather Router/Store 화면 전체에 적용한 핸즈온 7(Weather UI Library)을 구현했습니다. 홈 화면은 "TWL(Today's Weather Log)" 브랜드를 붙여 랜딩페이지 성격을 살짝 더했고, ESLint/Prettier 점검 후 Vercel에 배포하는 핸즈온 8(Weather Deployment)까지 마무리했습니다.
+
 ## Code Challenge
 
 슬라이드 전체를 한 번 더 훑어서, 지금까지 빠져 있던 항목들을 마저 구현했습니다. 항목별 상세 설명과 코드는 각 문서에 정리했습니다.
