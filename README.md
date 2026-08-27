@@ -65,8 +65,9 @@ Vue Components(Lifecycle Hook, Props & Emits, Slot 3종) Code Challenge를 구�
 - [핸즈온 3 - Weather Component](docs/handson-03-weather-component.md) — Weather Mockup을 4개 컴포넌트(+추가 3개)로 분리, props/emits/slot 실습
 - [핸즈온 4 - Weather Router](docs/handson-04-weather-router.md) — 동적 라우트(`:cityId`), Programmatic Navigation, Catch-all Route, Lazy Loading
 - [핸즈온 5 - Weather Store](docs/handson-05-weather-store.md) — Pinia `configStore`로 온도/풍속 단위 전역 상태 관리
+- [핸즈온 6 - Weather Axios](docs/handson-06-weather-axios.md) — OpenWeatherMap 2개 API + 키 없는 IP 위치 API, 총 3개 외부 API 연동 (⚠️ OWM API Key 활성화 대기 중, 재확인 필요)
 
-나머지 핸즈온(Axios, UI Library, Deployment)은 순서대로 진행 예정입니다.
+나머지 핸즈온(UI Library, Deployment)은 순서대로 진행 예정입니다.
 
 ## 체크리스트
 
