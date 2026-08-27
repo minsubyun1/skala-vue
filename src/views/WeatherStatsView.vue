@@ -42,7 +42,9 @@ const countByStatus = computed(() => {
       <h3>전체 통계 ({{ cityCount }}개 도시)</h3>
 
       <ElDescriptions :column="1" border size="small" class="stat-grid">
-        <ElDescriptionsItem label="평균 기온">{{ averageTemp }}{{ configStore.unitSymbol }}</ElDescriptionsItem>
+        <ElDescriptionsItem label="평균 기온"
+          >{{ averageTemp }}{{ configStore.unitSymbol }}</ElDescriptionsItem
+        >
         <ElDescriptionsItem label="최고 기온">
           {{ hottest.name }} ({{ toDisplayTemp(hottest.temp) }}{{ configStore.unitSymbol }})
         </ElDescriptionsItem>
@@ -53,11 +55,15 @@ const countByStatus = computed(() => {
 
       <h3>날씨 상태별 도시 수</h3>
       <div class="status-tags">
-        <ElTag v-for="(count, status) in countByStatus" :key="status">{{ status }}: {{ count }}곳</ElTag>
+        <ElTag v-for="(count, status) in countByStatus" :key="status"
+          >{{ status }}: {{ count }}곳</ElTag
+        >
       </div>
     </ElCard>
 
-    <ElButton tag="router-link" to="/handson/weather-router" text>← 메인 대시보드로 돌아가기</ElButton>
+    <ElButton tag="router-link" to="/handson/weather-router" text
+      >← 메인 대시보드로 돌아가기</ElButton
+    >
   </div>
 </template>
 

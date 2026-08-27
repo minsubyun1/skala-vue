@@ -42,8 +42,8 @@ onBeforeUnmount(() => window.removeEventListener('keydown', handleKeydown))
           </dl>
 
           <p class="modal-summary">
-            {{ city.name }}의 현재 날씨는 [{{ city.status }}] 상태입니다. 기온
-            {{ city.temp }}°C · 습도 {{ city.humidity }}% · 풍속 {{ city.wind }}{{ city.unit ?? 'm/s' }}
+            {{ city.name }}의 현재 날씨는 [{{ city.status }}] 상태입니다. 기온 {{ city.temp }}°C ·
+            습도 {{ city.humidity }}% · 풍속 {{ city.wind }}{{ city.unit ?? 'm/s' }}
           </p>
         </div>
       </div>

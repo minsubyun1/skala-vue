@@ -17,7 +17,9 @@ const handleUpdateRequest = (newValue) => {
     <h2>Props & Emits</h2>
     <div class="parent-container">
       <h2>상위 컴포넌트 (Parent)</h2>
-      <p>현재 로컬 데이터(State): <strong>{{ message }}</strong></p>
+      <p>
+        현재 로컬 데이터(State): <strong>{{ message }}</strong>
+      </p>
       <br />
       <PropsEmitsChild :parent-data="message" @update-request="handleUpdateRequest" />
     </div>

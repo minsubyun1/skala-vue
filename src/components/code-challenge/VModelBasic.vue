@@ -13,8 +13,8 @@ const name = ref('')
 
     <p class="hint">
       v-model은 <code>:value</code>와 <code>@input</code>을 한 번에 묶어주는 문법 설탕(Syntax
-      Sugar)입니다. 입력창에 값을 넣으면 <code>name</code>이 바뀌고, 반대로
-      <code>name</code>을 코드에서 바꾸면 입력창 값도 같이 바뀝니다.
+      Sugar)입니다. 입력창에 값을 넣으면 <code>name</code>이 바뀌고, 반대로 <code>name</code>을
+      코드에서 바꾸면 입력창 값도 같이 바뀝니다.
     </p>
     <button @click="name = 'Skala'">코드에서 값 바꾸기</button>
   </div>

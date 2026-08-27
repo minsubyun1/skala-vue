@@ -42,7 +42,10 @@ async function handleMapClick({ lat, lon }) {
   isAddingRegion.value = true
   mapError.value = ''
   try {
-    const [weather, name] = await Promise.all([fetchCurrentWeather(lat, lon), reverseGeocode(lat, lon)])
+    const [weather, name] = await Promise.all([
+      fetchCurrentWeather(lat, lon),
+      reverseGeocode(lat, lon),
+    ])
     interestRegions.value.push({
       id: `region_${Date.now()}`,
       lat,
@@ -90,8 +93,12 @@ function removeRegion(id) {
         <div>
           <h3>{{ owm.current.value.name }}, {{ owm.current.value.country }}</h3>
           <p class="temp">{{ owm.current.value.temp }}°C</p>
-          <p class="desc">{{ owm.current.value.description }} · 체감 {{ owm.current.value.feelsLike }}°C</p>
-          <p class="meta">습도 {{ owm.current.value.humidity }}% · 풍속 {{ owm.current.value.wind }}m/s</p>
+          <p class="desc">
+            {{ owm.current.value.description }} · 체감 {{ owm.current.value.feelsLike }}°C
+          </p>
+          <p class="meta">
+            습도 {{ owm.current.value.humidity }}% · 풍속 {{ owm.current.value.wind }}m/s
+          </p>
         </div>
       </div>
 
@@ -105,10 +112,16 @@ function removeRegion(id) {
 
       <div class="map-section">
         <h3>🗺️ 지도에서 관심 지역 추가</h3>
-        <p class="note">지도를 클릭하면 그 좌표의 실시간 날씨(Open-Meteo)를 가져와 관심 지역 목록에 추가합니다.</p>
+        <p class="note">
+          지도를 클릭하면 그 좌표의 실시간 날씨(Open-Meteo)를 가져와 관심 지역 목록에 추가합니다.
+        </p>
 
         <div class="map-layout">
-          <WeatherMapPanel class="map-panel" :regions="interestRegions" @map-click="handleMapClick" />
+          <WeatherMapPanel
+            class="map-panel"
+            :regions="interestRegions"
+            @map-click="handleMapClick"
+          />
 
           <div class="region-sidebar">
             <p v-if="isAddingRegion" class="hint">위치 정보를 불러오는 중...</p>
@@ -120,7 +133,9 @@ function removeRegion(id) {
             <TransitionGroup name="region" tag="ul" class="region-list">
               <li v-for="region in interestRegions" :key="region.id" class="region-item">
                 <div>
-                  <p class="region-name">{{ getStatusStyle(region.status).emoji }} {{ region.name }}</p>
+                  <p class="region-name">
+                    {{ getStatusStyle(region.status).emoji }} {{ region.name }}
+                  </p>
                   <p class="region-meta">
                     {{ region.temp }}°C · {{ region.status }} · 습도 {{ region.humidity }}%
                   </p>

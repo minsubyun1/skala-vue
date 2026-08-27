@@ -17,7 +17,9 @@ const changeUserName = () => {
 <template>
   <div class="practice-section">
     <h2>반응형 상태 ref() 기초</h2>
-    <p>Ref 카운트: <strong>{{ count }}</strong></p>
+    <p>
+      Ref 카운트: <strong>{{ count }}</strong>
+    </p>
     <p>이름: <input v-model="name" />{{ name }}</p>
     <p>활성 상태: {{ isActive ? '활성' : '비활성' }}</p>
     <p>과일 목록: {{ items.join(', ') }}</p>

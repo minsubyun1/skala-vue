@@ -260,7 +260,12 @@ onMounted(() => {
 
   composer = new EffectComposer(renderer)
   composer.addPass(new RenderPass(scene, camera))
-  bloomPass = new UnrealBloomPass(new THREE.Vector2(el.clientWidth, el.clientHeight), 0.35, 0.3, 0.55)
+  bloomPass = new UnrealBloomPass(
+    new THREE.Vector2(el.clientWidth, el.clientHeight),
+    0.35,
+    0.3,
+    0.55,
+  )
   composer.addPass(bloomPass)
   composer.addPass(new OutputPass())
 
@@ -298,7 +303,6 @@ onBeforeUnmount(() => {
   starField?.geometry.dispose()
   starField?.material.dispose()
   softDiscTexture.dispose()
-
   ;[sun, moon].forEach(({ core, glow }) => {
     core.geometry.dispose()
     core.material.dispose()

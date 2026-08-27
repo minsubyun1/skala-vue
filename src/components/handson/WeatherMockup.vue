@@ -24,23 +24,28 @@ const STATUS_OPTIONS = ['맑음', '구름', '비', '눈', '안개']
 // 날씨 상태별 배경 이미지 (Unsplash 직링크), 링크별 이미지 내용 확인 후 적용
 const STATUS_BACKGROUND = {
   맑음: {
-    image: 'https://images.unsplash.com/photo-1601297183305-6df142704ea2?auto=format&fit=crop&w=1600&q=75',
+    image:
+      'https://images.unsplash.com/photo-1601297183305-6df142704ea2?auto=format&fit=crop&w=1600&q=75',
     headline: '맑고 화창한 하루',
   },
   구름: {
-    image: 'https://images.unsplash.com/photo-1534088568595-a066f410bcda?auto=format&fit=crop&w=1600&q=75',
+    image:
+      'https://images.unsplash.com/photo-1534088568595-a066f410bcda?auto=format&fit=crop&w=1600&q=75',
     headline: '구름이 하늘을 가득 채웠어요',
   },
   비: {
-    image: 'https://images.unsplash.com/photo-1428592953211-077101b2021b?auto=format&fit=crop&w=1600&q=75',
+    image:
+      'https://images.unsplash.com/photo-1428592953211-077101b2021b?auto=format&fit=crop&w=1600&q=75',
     headline: '강한 비가 내리고 있어요',
   },
   눈: {
-    image: 'https://images.unsplash.com/photo-1547754980-3df97fed72a8?auto=format&fit=crop&w=1600&q=75',
+    image:
+      'https://images.unsplash.com/photo-1547754980-3df97fed72a8?auto=format&fit=crop&w=1600&q=75',
     headline: '하얀 눈이 소복소복 내려요',
   },
   안개: {
-    image: 'https://images.unsplash.com/photo-1487621167305-5d248087c724?auto=format&fit=crop&w=1600&q=75',
+    image:
+      'https://images.unsplash.com/photo-1487621167305-5d248087c724?auto=format&fit=crop&w=1600&q=75',
     headline: '짙은 안개가 시야를 가려요',
   },
 }
@@ -122,9 +127,12 @@ function searchLiveWeather() {
 
 // 배경(three.js + 사진) 표시 우선순위: hover 카드 > 실시간 조회 결과 > 선택 카드
 const activeStatus = computed(
-  () => hoveredStatus.value || liveWeather.result.value?.status || selectedCity.value?.status || '맑음',
+  () =>
+    hoveredStatus.value || liveWeather.result.value?.status || selectedCity.value?.status || '맑음',
 )
-const heroBackground = computed(() => STATUS_BACKGROUND[activeStatus.value] ?? STATUS_BACKGROUND['맑음'])
+const heroBackground = computed(
+  () => STATUS_BACKGROUND[activeStatus.value] ?? STATUS_BACKGROUND['맑음'],
+)
 
 // 상단 요약 패널, 실시간 조회 결과 우선 표시
 const heroReadout = computed(() => {
@@ -248,7 +256,9 @@ function resetTilt(event) {
 
         <div class="hero-stage">
           <Transition name="fade" mode="out-in">
-            <h3 :key="heroBackground.headline" class="hero-headline">{{ heroBackground.headline }}</h3>
+            <h3 :key="heroBackground.headline" class="hero-headline">
+              {{ heroBackground.headline }}
+            </h3>
           </Transition>
 
           <TransitionGroup name="card" tag="div" class="card-grid">

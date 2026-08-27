@@ -42,7 +42,10 @@ watch(selectedCityInfo, (next) => {
 
 // 요구사항 3 - watchEffect: searchQuery 타이핑할 때마다 자동으로 다시 실행됨
 watchEffect(() => {
-  pushLog('🔔 watchEffect', `검색어 "${searchQuery.value}" 로 필터링 -> ${filteredWeatherList.value.length}건`)
+  pushLog(
+    '🔔 watchEffect',
+    `검색어 "${searchQuery.value}" 로 필터링 -> ${filteredWeatherList.value.length}건`,
+  )
 })
 
 function selectCity(city) {
@@ -63,11 +66,9 @@ function toggleFavorite(city) {
   if (idx === -1) favoriteIds.value.push(city.id)
   else favoriteIds.value.splice(idx, 1)
 }
-watch(
-  favoriteIds,
-  (list) => pushLog('⭐ watch', `즐겨찾기 ${list.length}개로 변경됨`),
-  { deep: true },
-)
+watch(favoriteIds, (list) => pushLog('⭐ watch', `즐겨찾기 ${list.length}개로 변경됨`), {
+  deep: true,
+})
 </script>
 
 <template>
@@ -75,9 +76,9 @@ watch(
     <h2>Hands on - Weather Composition</h2>
 
     <p class="note">
-      💡 computed / watch / watchEffect 로직은 Weather Mockup 과제에서도 동일하게 사용했습니다.
-      해당 과제는 UI가 화려해서 로직이 눈에 잘 띄지 않을 수 있어, 이 페이지에서는 반응형 로직만
-      따로 정리해서 보여드립니다.
+      💡 computed / watch / watchEffect 로직은 Weather Mockup 과제에서도 동일하게 사용했습니다. 해당
+      과제는 UI가 화려해서 로직이 눈에 잘 띄지 않을 수 있어, 이 페이지에서는 반응형 로직만 따로
+      정리해서 보여드립니다.
     </p>
 
     <div class="panel">
@@ -97,8 +98,18 @@ watch(
         <span v-if="favoriteCount" class="fav-count">⭐ 즐겨찾기 {{ favoriteCount }}개</span>
       </div>
 
-      <TransitionGroup v-if="filteredWeatherList.length > 0" name="card" tag="div" class="card-grid">
-        <article v-for="city in filteredWeatherList" :key="city.id" class="city-card" @click="selectCity(city)">
+      <TransitionGroup
+        v-if="filteredWeatherList.length > 0"
+        name="card"
+        tag="div"
+        class="card-grid"
+      >
+        <article
+          v-for="city in filteredWeatherList"
+          :key="city.id"
+          class="city-card"
+          @click="selectCity(city)"
+        >
           <button
             class="star"
             :class="{ on: favoriteIds.includes(city.id) }"
@@ -123,12 +134,15 @@ watch(
     <p class="status-bar">{{ selectedCityInfo }}</p>
 
     <div class="console-box">
-      <p class="console-title">console (watch / watchEffect 로그를 여기에서도 확인할 수 있습니다)</p>
+      <p class="console-title">
+        console (watch / watchEffect 로그를 여기에서도 확인할 수 있습니다)
+      </p>
       <p v-if="logs.length === 0" class="console-empty">
         아직 출력된 로그가 없습니다. 검색하거나 카드를 클릭해 보세요.
       </p>
       <p v-for="log in logs" :key="log.key" class="console-line">
-        <span class="tag">{{ log.tag }}</span>{{ log.msg }}
+        <span class="tag">{{ log.tag }}</span
+        >{{ log.msg }}
       </p>
     </div>
 

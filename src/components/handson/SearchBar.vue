@@ -14,7 +14,12 @@ function handleInput(event) {
 <template>
   <div>
     <label class="search-label">🔍 도시 검색 (실습 데이터)</label>
-    <input :value="searchQuery" @input="handleInput" type="text" placeholder="검색할 도시 이름 입력" />
+    <input
+      :value="searchQuery"
+      @input="handleInput"
+      type="text"
+      placeholder="검색할 도시 이름 입력"
+    />
     <p class="search-hint">검색 중인 도시: {{ searchQuery || '전체' }}</p>
   </div>
 </template>

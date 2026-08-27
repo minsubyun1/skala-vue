@@ -25,23 +25,28 @@ const STATUS_OPTIONS = ['맑음', '구름', '비', '눈', '안개']
 
 const STATUS_BACKGROUND = {
   맑음: {
-    image: 'https://images.unsplash.com/photo-1601297183305-6df142704ea2?auto=format&fit=crop&w=1600&q=75',
+    image:
+      'https://images.unsplash.com/photo-1601297183305-6df142704ea2?auto=format&fit=crop&w=1600&q=75',
     headline: '맑고 화창한 하루',
   },
   구름: {
-    image: 'https://images.unsplash.com/photo-1534088568595-a066f410bcda?auto=format&fit=crop&w=1600&q=75',
+    image:
+      'https://images.unsplash.com/photo-1534088568595-a066f410bcda?auto=format&fit=crop&w=1600&q=75',
     headline: '구름이 하늘을 가득 채웠어요',
   },
   비: {
-    image: 'https://images.unsplash.com/photo-1428592953211-077101b2021b?auto=format&fit=crop&w=1600&q=75',
+    image:
+      'https://images.unsplash.com/photo-1428592953211-077101b2021b?auto=format&fit=crop&w=1600&q=75',
     headline: '강한 비가 내리고 있어요',
   },
   눈: {
-    image: 'https://images.unsplash.com/photo-1547754980-3df97fed72a8?auto=format&fit=crop&w=1600&q=75',
+    image:
+      'https://images.unsplash.com/photo-1547754980-3df97fed72a8?auto=format&fit=crop&w=1600&q=75',
     headline: '하얀 눈이 소복소복 내려요',
   },
   안개: {
-    image: 'https://images.unsplash.com/photo-1487621167305-5d248087c724?auto=format&fit=crop&w=1600&q=75',
+    image:
+      'https://images.unsplash.com/photo-1487621167305-5d248087c724?auto=format&fit=crop&w=1600&q=75',
     headline: '짙은 안개가 시야를 가려요',
   },
 }
@@ -91,9 +96,12 @@ function handleLiveSearch(query) {
 }
 
 const activeStatus = computed(
-  () => hoveredStatus.value || liveWeather.result.value?.status || selectedCity.value?.status || '맑음',
+  () =>
+    hoveredStatus.value || liveWeather.result.value?.status || selectedCity.value?.status || '맑음',
 )
-const heroBackground = computed(() => STATUS_BACKGROUND[activeStatus.value] ?? STATUS_BACKGROUND['맑음'])
+const heroBackground = computed(
+  () => STATUS_BACKGROUND[activeStatus.value] ?? STATUS_BACKGROUND['맑음'],
+)
 const heroReadout = computed(() => {
   if (liveWeather.result.value) return { ...liveWeather.result.value, source: 'LIVE', unit: 'km/h' }
   if (selectedCity.value) return { ...selectedCity.value, source: '선택된 카드', unit: 'm/s' }
@@ -105,9 +113,9 @@ const heroReadout = computed(() => {
   <div class="practice-section">
     <h2>Hands on - Weather Component</h2>
     <p class="note">
-      💡 Weather Mockup과 기능은 완전히 동일하지만, WeatherParent(상태) /
-      BaseDashboardCard(공통 카드 레이아웃) / SearchBar / WeatherCard 4개로 나누고, 추가로
-      AddCityForm / LiveWeatherPanel / NowPanel까지 컴포넌트로 분리했습니다.
+      💡 Weather Mockup과 기능은 완전히 동일하지만, WeatherParent(상태) / BaseDashboardCard(공통
+      카드 레이아웃) / SearchBar / WeatherCard 4개로 나누고, 추가로 AddCityForm / LiveWeatherPanel /
+      NowPanel까지 컴포넌트로 분리했습니다.
     </p>
 
     <section class="hero" @mouseleave="hoveredStatus = ''">
@@ -139,7 +147,9 @@ const heroReadout = computed(() => {
 
         <div class="hero-stage">
           <Transition name="fade" mode="out-in">
-            <h3 :key="heroBackground.headline" class="hero-headline">{{ heroBackground.headline }}</h3>
+            <h3 :key="heroBackground.headline" class="hero-headline">
+              {{ heroBackground.headline }}
+            </h3>
           </Transition>
 
           <BaseDashboardCard title="📍 지역별 날씨 현황">

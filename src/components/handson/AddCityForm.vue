@@ -1,6 +1,14 @@
 <script setup>
 import { ref } from 'vue'
-import { ElButton, ElForm, ElFormItem, ElInput, ElInputNumber, ElOption, ElSelect } from 'element-plus'
+import {
+  ElButton,
+  ElForm,
+  ElFormItem,
+  ElInput,
+  ElInputNumber,
+  ElOption,
+  ElSelect,
+} from 'element-plus'
 
 defineProps({
   statusOptions: { type: Array, required: true },
@@ -30,7 +38,12 @@ function submit() {
         </ElFormItem>
         <ElFormItem label="날씨">
           <ElSelect v-model="newCity.status">
-            <ElOption v-for="status in statusOptions" :key="status" :label="status" :value="status" />
+            <ElOption
+              v-for="status in statusOptions"
+              :key="status"
+              :label="status"
+              :value="status"
+            />
           </ElSelect>
         </ElFormItem>
       </div>

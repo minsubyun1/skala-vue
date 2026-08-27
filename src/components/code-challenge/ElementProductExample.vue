@@ -21,9 +21,7 @@ const productRate = ref(4) // 별점 기본값 (별 4개)
       <p style="margin-top: 12px">별점</p>
       <ElRate v-model="productRate" />
 
-      <p style="margin-top: 12px">
-        선택 수량: {{ productQuantity }}개 · 별점: {{ productRate }}점
-      </p>
+      <p style="margin-top: 12px">선택 수량: {{ productQuantity }}개 · 별점: {{ productRate }}점</p>
     </ElCard>
   </div>
 </template>

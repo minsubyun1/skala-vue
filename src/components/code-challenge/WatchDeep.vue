@@ -42,15 +42,17 @@ watch(
       <p>👁️‍🗨️ 1) deep: true 모니터 (전체 감시)</p>
       <p>{{ logDeep }}</p>
       <small style="color: gray">
-        ※ 주의: deep:true를 쓰면 newVal이 이미 최신 상태를 가리키는 같은 객체라서,
-        oldValue를 봐도 결국 최신값과 똑같이 나옵니다 (과거 값 추적 불가).
+        ※ 주의: deep:true를 쓰면 newVal이 이미 최신 상태를 가리키는 같은 객체라서, oldValue를 봐도
+        결국 최신값과 똑같이 나옵니다 (과거 값 추적 불가).
       </small>
     </div>
 
     <div class="monitor target">
       <p>🎯 2) 화살표 함수 모니터 (나이만 타겟 감시)</p>
       <p>{{ logTarget }}</p>
-      <small style="color: gray">※ 특정 속성만 getter로 콕 집으면 이전 값이 정상적으로 보존됩니다.</small>
+      <small style="color: gray"
+        >※ 특정 속성만 getter로 콕 집으면 이전 값이 정상적으로 보존됩니다.</small
+      >
     </div>
   </div>
 </template>

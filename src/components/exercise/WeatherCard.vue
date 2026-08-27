@@ -50,7 +50,9 @@ const badge = computed(() => {
     </template>
 
     <p class="temp">현재 기온: {{ displayTemp }}{{ configStore.unitSymbol }}</p>
-    <p class="meta">습도 {{ city.humidity }}% · 풍속 {{ displayWind }}{{ configStore.windUnitLabel }}</p>
+    <p class="meta">
+      습도 {{ city.humidity }}% · 풍속 {{ displayWind }}{{ configStore.windUnitLabel }}
+    </p>
     <ElTag :type="badge.type" size="small" round class="badge">{{ badge.text }}</ElTag>
 
     <ElButton class="detail-btn" @click.stop="emit('click-detail', city)">상세보기</ElButton>

@@ -20,7 +20,9 @@ const sendNotification = () => {
 <template>
   <div class="child-container">
     <h2>하위 컴포넌트 (Child)</h2>
-    <p>수신된 Props 데이터: <strong>{{ parentData }}</strong></p>
+    <p>
+      수신된 Props 데이터: <strong>{{ parentData }}</strong>
+    </p>
     <br />
     <button @click="sendNotification">상위 컴포넌트로 갱신 요청 (Emit)</button>
   </div>

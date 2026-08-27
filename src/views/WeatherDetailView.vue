@@ -57,8 +57,12 @@ const displayWind = computed(() => {
       <ElDescriptions :column="2" border size="small" class="stat-grid">
         <ElDescriptionsItem label="날씨">{{ city.status }}</ElDescriptionsItem>
         <ElDescriptionsItem label="습도">{{ city.humidity }}%</ElDescriptionsItem>
-        <ElDescriptionsItem label="풍속">{{ displayWind }}{{ configStore.windUnitLabel }}</ElDescriptionsItem>
-        <ElDescriptionsItem label="체감기온">{{ displayFeelsLike }}{{ configStore.unitSymbol }}</ElDescriptionsItem>
+        <ElDescriptionsItem label="풍속"
+          >{{ displayWind }}{{ configStore.windUnitLabel }}</ElDescriptionsItem
+        >
+        <ElDescriptionsItem label="체감기온"
+          >{{ displayFeelsLike }}{{ configStore.unitSymbol }}</ElDescriptionsItem
+        >
       </ElDescriptions>
 
       <p class="city-id">도시 코드: {{ city.id }} (URL의 :cityId 파라미터)</p>
@@ -69,7 +73,9 @@ const displayWind = computed(() => {
       <p class="hint">홈 화면에서 직접 추가한 도시는 이 mock 데이터에 없어서 조회되지 않습니다.</p>
     </ElCard>
 
-    <ElButton tag="router-link" to="/handson/weather-router" text>← 메인 대시보드로 돌아가기</ElButton>
+    <ElButton tag="router-link" to="/handson/weather-router" text
+      >← 메인 대시보드로 돌아가기</ElButton
+    >
   </div>
 </template>
 

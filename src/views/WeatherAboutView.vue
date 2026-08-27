@@ -15,8 +15,8 @@ import UnitToggler from '@/components/exercise/UnitToggler.vue'
     <ElCard shadow="never" class="about-card">
       <h3>이 서비스는 무엇인가요?</h3>
       <p>
-        Skala-Vue 실습 중 하나로 만든 미니 날씨 대시보드입니다. 도시를 검색하고, 카드를
-        클릭해서 선택하고, 상세보기를 누르면 <code>/handson/weather-router/weather/:cityId</code>
+        Skala-Vue 실습 중 하나로 만든 미니 날씨 대시보드입니다. 도시를 검색하고, 카드를 클릭해서
+        선택하고, 상세보기를 누르면 <code>/handson/weather-router/weather/:cityId</code>
         경로로 이동해서 해당 도시의 상세 관측 정보를 확인할 수 있습니다.
       </p>
 
@@ -30,7 +30,9 @@ import UnitToggler from '@/components/exercise/UnitToggler.vue'
         <li>Element Plus(외부 UI Library)로 만든 카드/버튼/폼/스위치/통계 표 등 화면 전체 UI</li>
       </ul>
 
-      <ElButton tag="router-link" to="/handson/weather-router" text>← 메인 대시보드로 돌아가기</ElButton>
+      <ElButton tag="router-link" to="/handson/weather-router" text
+        >← 메인 대시보드로 돌아가기</ElButton
+      >
     </ElCard>
   </div>
 </template>

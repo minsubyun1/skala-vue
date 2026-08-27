@@ -118,7 +118,6 @@ import { practiceGroups } from '@/router/practiceRoutes'
   color: #42b883;
   font-weight: 700;
   background-color: var(--color-background-mute);
-  border-left-color: #42b883;
 }
 
 .content {

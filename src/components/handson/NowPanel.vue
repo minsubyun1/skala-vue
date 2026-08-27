@@ -18,7 +18,8 @@ defineProps({
       </p>
       <p class="now-temp">{{ readout.temp }}°C</p>
       <p class="now-meta">
-        {{ readout.status }} · 습도 {{ readout.humidity }}% · 풍속 {{ readout.wind }}{{ readout.unit }}
+        {{ readout.status }} · 습도 {{ readout.humidity }}% · 풍속 {{ readout.wind
+        }}{{ readout.unit }}
       </p>
     </div>
   </div>

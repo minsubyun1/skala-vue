@@ -33,9 +33,9 @@ const removeItem = (index) => {
     <button @click="addItem">과일 항목 추가</button>
 
     <p class="hint">
-      reactive로 선언된 객체나 배열은 통째로 새 값으로 재할당(<code>state = {...}</code>)하면
-      반응성 연결이 끊깁니다. 내부 프로퍼티만 조심스럽게 바꾸거나, 배열이라면 push/splice 같은
-      메서드로 다뤄야 합니다.
+      reactive로 선언된 객체나 배열은 통째로 새 값으로 재할당(<code>state = {...}</code>)하면 반응성
+      연결이 끊깁니다. 내부 프로퍼티만 조심스럽게 바꾸거나, 배열이라면 push/splice 같은 메서드로
+      다뤄야 합니다.
     </p>
   </div>
 </template>
