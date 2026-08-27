@@ -26,7 +26,7 @@ export const practiceGroups = [
       {
         path: '/handson/weather-router',
         name: 'handson-weather-router',
-        label: 'Weather Router / Store',
+        label: 'Weather Router / Store / UI Library',
         component: () => import('@/views/WeatherHomeView.vue'),
       },
       {

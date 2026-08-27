@@ -99,7 +99,7 @@ const heroReadout = computed(() => {
 
 <template>
   <div class="practice-section">
-    <h2>Hands on - Weather Router / Store</h2>
+    <h2>Hands on - Weather Router / Store / UI Library</h2>
     <div class="nav-row">
       <WeatherRouterNav />
       <UnitToggler />
@@ -108,6 +108,10 @@ const heroReadout = computed(() => {
       핸즈온 3(WeatherParent)을 그대로 가져오되, 상세보기 버튼을 모달 대신
       <code>router.push('/handson/weather-router/weather/' + city.id)</code>로 바꿨습니다.
       온도·풍속 단위는 오른쪽 토글(<code>stores/configStore.js</code>)로 전환됩니다.
+      핸즈온 7(Weather UI Library)에서는 이 화면을 포함한 4개 화면(홈/소개/상세/통계) 전체에
+      Element Plus(<code>ElCard</code>, <code>ElButton</code>, <code>ElInput</code>,
+      <code>ElForm</code>, <code>ElSwitch</code>, <code>ElDescriptions</code>, <code>ElTag</code> 등)를
+      적용했습니다.
     </p>
 
     <section class="hero" @mouseleave="hoveredStatus = ''">

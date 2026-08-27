@@ -6,7 +6,7 @@ import UnitToggler from '@/components/exercise/UnitToggler.vue'
 
 <template>
   <div class="practice-section">
-    <h2>Hands on - Weather Router / Store</h2>
+    <h2>Hands on - Weather Router / Store / UI Library</h2>
     <div class="nav-row">
       <WeatherRouterNav />
       <UnitToggler />
@@ -27,6 +27,7 @@ import UnitToggler from '@/components/exercise/UnitToggler.vue'
         <li>Pinia로 만든 온도/풍속 단위 설정(<code>stores/configStore.js</code>)</li>
         <li>Open-Meteo API를 이용한 실시간 날씨 조회</li>
         <li>three.js로 만든 날씨 상태별 배경 파티클</li>
+        <li>Element Plus(외부 UI Library)로 만든 카드/버튼/폼/스위치/통계 표 등 화면 전체 UI</li>
       </ul>
 
       <ElButton tag="router-link" to="/handson/weather-router" text>← 메인 대시보드로 돌아가기</ElButton>
