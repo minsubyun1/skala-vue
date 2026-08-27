@@ -2,7 +2,7 @@
 
 Skala Vue 수업 과제 정리용 repository입니다. Vue 3 + Composition API(`<script setup>`)로 작성한 실습 컴포넌트들을 모아두었고, 페이지 수가 늘어나면서 Vue Router를 붙여 사이드바로 이동할 수 있도록 구성했습니다.
 
-- 배포 URL: _(배포 후 추가 예정)_
+- 배포 URL: https://skalavuetwl.vercel.app
 
 ## 실행 방법
 
@@ -67,11 +67,10 @@ Vue Components(Lifecycle Hook, Props & Emits, Slot 3종) Code Challenge를 구�
 - [핸즈온 5 - Weather Store](docs/handson-05-weather-store.md) — Pinia `configStore`로 온도/풍속 단위 전역 상태 관리
 - [핸즈온 6 - Weather Axios](docs/handson-06-weather-axios.md) — OpenWeatherMap 2개 API + 키 없는 IP 위치 API, 지도 클릭으로 관심 지역을 추가하는 Open-Meteo/Nominatim 연동까지 외부 API 다수 연동
 - [핸즈온 7 - Weather UI Library](docs/handson-07-weather-ui-library.md) — Element Plus 도입, Weather Router/Store 화면 전체에 적용
-
-나머지 핸즈온(Deployment)은 순서대로 진행 예정입니다.
+- [핸즈온 8 - Weather Deployment](docs/handson-08-weather-deployment.md) — ESLint/Prettier 점검, API 키 환경변수 처리, Vercel 배포
 
 ## 체크리스트
 
-- [ ] GitHub push
-- [ ] 시크릿 창에서 로그인 없이 접속되는지 확인
-- [ ] 배포 후 위 링크 업데이트
+- [x] GitHub push
+- [x] 시크릿 창에서 로그인 없이 접속되는지 확인
+- [x] 배포 후 위 링크 업데이트
