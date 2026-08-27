@@ -49,7 +49,11 @@ const noonEntries = data.list.filter((entry) => entry.dt_txt.includes('12:00:00'
 
 ### 3. ipwho.is - 기타 외부 API
 
-키가 필요 없는 IP 기반 위치 조회 API입니다. "📍 내 위치로 조회" 버튼을 누르면 접속한 브라우저의 공인 IP로 도시를 추정해서 그 도시로 바로 검색합니다. 날씨 앱에 실제로 쓸모 있는 기능이라 임의의 API보다 이걸 골랐습니다.
+`ipwho.is`는 IP 조회 서비스 업체 `ipwhois.io`에서 제공하는 무료 IP Geolocation REST API입니다. 회원가입이나 API Key 없이 GET 요청만 보내면 요청을 보낸 클라이언트의 공인 IP를 기준으로 국가/지역/도시/좌표 등을 JSON으로 반환합니다.
+
+![ipwhois.io API Documentation](images/handson-06-ipwhois-api-docs.png)
+
+"📍 내 위치로 조회" 버튼을 누르면 이 API로 접속한 브라우저의 공인 IP로 도시를 추정해서 그 도시로 바로 검색합니다. 날씨 앱에 실제로 쓸모 있는 기능이라 임의의 API보다 이걸 골랐습니다.
 
 ```js
 // src/api/ipGeolocation.js
