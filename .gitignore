@@ -14,6 +14,11 @@ dist-ssr
 coverage
 *.local
 
+# 환경변수 (내용은 docs/code-challenge-09-build-deploy.md에 기록해뒀음. .env.example만 추적)
+.env
+.env.staging
+.env.production
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
