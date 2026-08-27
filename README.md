@@ -4,8 +4,6 @@ Skala Vue 수업 과제 정리용 repository입니다. Vue 3 + Composition API(`
 
 - 배포 URL: https://skalavuetwl.vercel.app
 
-## 미리보기
-
 <table>
 <tr>
 <td width="33%"><img src="docs/images/readme-preview-sunny.png" alt="맑음 상태 화면" width="100%"></td>
