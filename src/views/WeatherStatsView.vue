@@ -12,8 +12,7 @@ function toDisplayTemp(rawTemp) {
   return configStore.unit === 'fahrenheit' ? Math.round((rawTemp * 9) / 5 + 32) : rawTemp
 }
 
-// 요구사항 6: 기존 4개 view 외에 본인이 추가한 view.
-// 통계 페이지라 별도 상태 없이 mock 데이터를 computed로 가공만 한다.
+// 기존 4개 화면 외에 추가한 통계 화면. 별도 상태 없이 mock 데이터를 computed로 가공만 한다.
 const cityCount = computed(() => weatherMockData.length)
 const averageTemp = computed(() => {
   const sum = weatherMockData.reduce((acc, city) => acc + city.temp, 0)

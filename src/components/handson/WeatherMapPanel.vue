@@ -38,6 +38,8 @@ function renderMarkers(regions) {
   })
 }
 
+let regionCount = props.regions.length
+
 onMounted(() => {
   map = L.map(mapContainer.value).setView([36.5, 127.8], 7)
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -54,7 +56,15 @@ onMounted(() => {
 
 watch(
   () => props.regions,
-  (regions) => renderMarkers(regions),
+  (regions) => {
+    renderMarkers(regions)
+    // 검색으로 추가된 지역은 지도 클릭이 없어서, 새 지역이 생기면 그쪽으로도 이동시켜준다.
+    if (regions.length > regionCount) {
+      const added = regions[regions.length - 1]
+      map.flyTo([added.lat, added.lon], Math.max(map.getZoom(), 9), { duration: 0.6 })
+    }
+    regionCount = regions.length
+  },
   { deep: true },
 )
 

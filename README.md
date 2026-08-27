@@ -4,6 +4,18 @@ Skala Vue 수업 과제 정리용 repository입니다. Vue 3 + Composition API(`
 
 - 배포 URL: https://skalavuetwl.vercel.app
 
+## 미리보기
+
+<table>
+<tr>
+<td width="33%"><img src="docs/images/readme-preview-sunny.png" alt="맑음 상태 화면" width="100%"></td>
+<td width="33%"><img src="docs/images/readme-preview-rain.png" alt="비 상태 화면" width="100%"></td>
+<td width="33%"><img src="docs/images/readme-preview-snow.png" alt="눈 상태 화면" width="100%"></td>
+</tr>
+</table>
+
+핸즈온 1(Weather Mockup)의 대시보드 화면입니다. 카드를 클릭하거나 실시간 검색으로 날씨를 조회하면, 그 날씨 상태(맑음/비/눈/구름/안개)에 따라 배경 사진과 three.js 파티클 효과가 함께 바뀝니다.
+
 ## 실행 방법
 
 ```sh

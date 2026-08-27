@@ -9,7 +9,7 @@ export const useConfigStore = defineStore('config', () => {
     unit.value = unit.value === 'celsius' ? 'fahrenheit' : 'celsius'
   }
 
-  // 풍속 단위 (본인 추가 - 요구사항 4: configStore에 state/getter/action 추가)
+  // 풍속 단위 (온도 단위와 같은 패턴으로 추가)
   const windUnit = ref('ms')
   const windUnitLabel = computed(() => (windUnit.value === 'ms' ? 'm/s' : 'km/h'))
   function toggleWindUnit() {

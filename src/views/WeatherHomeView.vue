@@ -72,7 +72,7 @@ function handleSelectCard(city) {
   selectedCity.value = city
 }
 
-// 요구사항 3: 상세보기는 모달/alert 대신 Programmatic Navigation으로 처리한다.
+// 상세보기는 모달/alert 대신 Programmatic Navigation으로 처리한다.
 function handleClickDetail(city) {
   router.push(`/handson/weather-router/weather/${city.id}`)
 }

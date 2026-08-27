@@ -10,7 +10,7 @@ import LiveWeatherPanel from './LiveWeatherPanel.vue'
 import NowPanel from './NowPanel.vue'
 import { useLiveWeather } from '@/composables/useLiveWeather'
 
-// 1. 모든 반응형 데이터는 WeatherParent가 유지한다 (요구사항 1)
+// 반응형 데이터는 전부 WeatherParent가 들고 있고, 자식들에게는 props/emits로만 오간다
 const weatherList = ref([
   { id: 'city_incheon', name: '인천', temp: 27, status: '맑음', humidity: 55, wind: 3.1 },
   { id: 'city_daejeon', name: '대전', temp: 31, status: '맑음', humidity: 40, wind: 1.8 },

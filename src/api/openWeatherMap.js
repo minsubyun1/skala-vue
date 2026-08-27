@@ -11,6 +11,24 @@ const client = axios.create({
   },
 })
 
+// 지도 마커가 쓰는 5개 상태(맑음/구름/비/눈/안개)와 맞추기 위한 아이콘 코드 매핑.
+// https://openweathermap.org/weather-conditions
+const ICON_STATUS_MAP = {
+  '01': '맑음',
+  '02': '구름',
+  '03': '구름',
+  '04': '구름',
+  '09': '비',
+  10: '비',
+  11: '비',
+  13: '눈',
+  50: '안개',
+}
+
+function iconToStatus(icon) {
+  return ICON_STATUS_MAP[icon.slice(0, 2)] ?? '구름'
+}
+
 function toFriendlyError(error) {
   if (error.response?.status === 401) {
     return 'API Key가 아직 비활성 상태입니다. OpenWeatherMap은 발급 후 활성화까지 최대 몇 시간 걸릴 수 있습니다.'
@@ -21,26 +39,29 @@ function toFriendlyError(error) {
   return '날씨 정보를 가져오지 못했습니다.'
 }
 
-// API 1 (필수) - OpenWeatherMap Current Weather Data
+// OpenWeatherMap Current Weather Data
 export async function fetchCurrentWeather(city) {
   try {
     const { data } = await client.get('/weather', { params: { q: city } })
     return {
       name: data.name,
       country: data.sys.country,
+      lat: data.coord.lat,
+      lon: data.coord.lon,
       temp: Math.round(data.main.temp),
       feelsLike: Math.round(data.main.feels_like),
       humidity: data.main.humidity,
       wind: data.wind.speed,
       description: data.weather[0].description,
       icon: data.weather[0].icon,
+      status: iconToStatus(data.weather[0].icon),
     }
   } catch (error) {
     throw new Error(toFriendlyError(error), { cause: error })
   }
 }
 
-// API 2 (OpenWeatherMap이 제공하는 추가 API) - 5 Day / 3 Hour Forecast
+// OpenWeatherMap 5 Day / 3 Hour Forecast
 export async function fetchForecast(city) {
   try {
     const { data } = await client.get('/forecast', { params: { q: city } })

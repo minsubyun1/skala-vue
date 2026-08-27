@@ -13,18 +13,50 @@ const owm = useOpenWeatherMap()
 const isLocating = ref(false)
 const locateError = ref('')
 
-function handleSearch() {
-  owm.search(cityInput.value)
+// 요구사항(외부 API 3개)과는 별개로 추가한 기능: 검색/지도 클릭으로 찾은 지역을 한 목록(관심
+// 지역)으로 통합해서 관리한다. 이름이 같으면(같은 도시를 다시 검색) 새로 추가하지 않고 갱신한다.
+const interestRegions = ref([])
+const isAddingRegion = ref(false)
+const mapError = ref('')
+
+function upsertRegion(data) {
+  const existing = interestRegions.value.find((region) => region.name === data.name)
+  if (existing) {
+    Object.assign(existing, data)
+  } else {
+    interestRegions.value.push({ id: `region_${Date.now()}`, ...data })
+  }
 }
 
-// API 3 (기타 외부 API): 브라우저의 공인 IP로 도시를 추정해서 바로 검색해준다.
+// 도시 이름 검색(OpenWeatherMap)도 지도 클릭과 동일하게 좌표를 얻을 수 있어서, 검색과 동시에
+// 관심 지역에 추가하고 지도에도 마커/기온이 바로 뜨도록 한다.
+async function performSearch(city) {
+  await owm.search(city)
+  if (owm.current.value) {
+    upsertRegion({
+      lat: owm.current.value.lat,
+      lon: owm.current.value.lon,
+      name: owm.current.value.name,
+      temp: owm.current.value.temp,
+      status: owm.current.value.status,
+      humidity: owm.current.value.humidity,
+      wind: owm.current.value.wind,
+    })
+  }
+}
+
+function handleSearch() {
+  performSearch(cityInput.value)
+}
+
+// 브라우저의 공인 IP로 도시를 추정해서 바로 검색해준다.
 async function handleLocateMe() {
   isLocating.value = true
   locateError.value = ''
   try {
     const { city } = await fetchMyCity()
     cityInput.value = city
-    await owm.search(city)
+    await performSearch(city)
   } catch (error) {
     locateError.value = error.message
   } finally {
@@ -32,12 +64,8 @@ async function handleLocateMe() {
   }
 }
 
-// 요구사항(외부 API 3개)과는 별개로 추가한 기능: 지도를 클릭하면 그 좌표의 실시간 날씨를
-// Open-Meteo로 가져오고, Nominatim(OpenStreetMap) 역지오코딩으로 지명을 붙여 관심 지역에 담는다.
-const interestRegions = ref([])
-const isAddingRegion = ref(false)
-const mapError = ref('')
-
+// 지도를 클릭하면 그 좌표의 실시간 날씨를 Open-Meteo로 가져오고, Nominatim(OpenStreetMap)
+// 역지오코딩으로 지명을 붙여 같은 관심 지역 목록에 담는다.
 async function handleMapClick({ lat, lon }) {
   isAddingRegion.value = true
   mapError.value = ''
@@ -46,8 +74,7 @@ async function handleMapClick({ lat, lon }) {
       fetchCurrentWeather(lat, lon),
       reverseGeocode(lat, lon),
     ])
-    interestRegions.value.push({
-      id: `region_${Date.now()}`,
+    upsertRegion({
       lat,
       lon,
       name: name ?? `${lat.toFixed(2)}, ${lon.toFixed(2)}`,

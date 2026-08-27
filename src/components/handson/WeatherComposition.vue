@@ -16,7 +16,6 @@ const weatherList = ref([
   { id: 'city_pohang', name: '포항', temp: 29, status: '비', humidity: 76, wind: 6.0 },
 ])
 
-// 요구사항 1 - 반응형 상태
 const searchQuery = ref('')
 const selectedCityInfo = ref('카드를 클릭하거나 검색해 보세요.')
 
@@ -28,19 +27,19 @@ function pushLog(tag, msg) {
   if (logs.value.length > 12) logs.value.pop()
 }
 
-// 요구사항 2 - computed로 필터링 (검색어 없으면 원본 그대로 반환)
+// 검색어로 필터링, 검색어 없으면 원본 그대로 반환
 const filteredWeatherList = computed(() => {
   const q = searchQuery.value.trim()
   if (!q) return weatherList.value
   return weatherList.value.filter((c) => c.name.includes(q))
 })
 
-// 요구사항 3 - watch: selectedCityInfo(상태바 문구) 바뀔 때마다
+// watch: selectedCityInfo(상태바 문구)가 바뀔 때만 실행
 watch(selectedCityInfo, (next) => {
   pushLog('👁️ watch', `상태바 문구 변경 -> "${next}"`)
 })
 
-// 요구사항 3 - watchEffect: searchQuery 타이핑할 때마다 자동으로 다시 실행됨
+// watchEffect: 내부에서 참조한 searchQuery가 바뀔 때마다 자동으로 다시 실행
 watchEffect(() => {
   pushLog(
     '🔔 watchEffect',
@@ -58,7 +57,7 @@ function showDetail(city) {
   detailCity.value = city
 }
 
-// 요구사항 5 - 추가 반응형 상태 + computed + watcher (즐겨찾기 기능)
+// 즐겨찾기 기능 (반응형 상태 + computed + watcher 조합)
 const favoriteIds = ref([])
 const favoriteCount = computed(() => favoriteIds.value.length)
 function toggleFavorite(city) {
