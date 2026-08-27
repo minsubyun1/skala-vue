@@ -19,7 +19,7 @@
 
 Axios는 핸즈온 1(Weather Mockup)에서 Open-Meteo 연동할 때 이미 설치해뒀어서 새로 설치할 건 없었습니다. OpenWeatherMap API Key는 개인 계정으로 발급받아야 하는 부분이라, 발급받은 키를 `.env.local`에 `VITE_OPENWEATHERMAP_API_KEY`로 넣어뒀습니다 (`.gitignore`의 `*.local` 규칙에 걸려 git에는 올라가지 않습니다).
 
-발급 직후에 테스트해보니 `401 Invalid API key`가 떴는데, OpenWeatherMap은 키 발급 후 활성화까지 시간이 걸리는 게 잘 알려진 특성이라 코드/에러 처리까지 전부 만들어두고, 실제 데이터 확인은 키가 활성화된 뒤로 미뤘습니다.
+발급 직후에 테스트해보니 `401 Invalid API key`가 떴습니다. OpenWeatherMap은 키 발급 후 활성화까지 시간이 걸리는 게 잘 알려진 특성이라, 일단 코드/에러 처리부터 만들어두고 잠시 후 다시 테스트했더니 정상적으로 활성화되어 실제 데이터가 나왔습니다.
 
 ```js
 if (error.response?.status === 401) {
@@ -70,9 +70,7 @@ const [currentResult, forecastResult] = await Promise.all([
 
 ## 검증
 
-키가 아직 비활성 상태라 실제 날씨 데이터로는 확인 못 했지만, 다음은 확인했습니다.
+- 키 활성화 전: 검색 시 401 에러가 친절한 한글 안내 문구로 바뀌어 나오는지 확인
+- "내 위치로 조회" 버튼이 ipwho.is로 실제 위치(예: Seongnam-si)를 가져와서 입력창에 채우고 검색을 시도하는지 확인
+- 키 활성화 후: "Seoul" 검색 시 실제 현재 날씨(26°C, 온흐림, 습도 94%, 풍속 1.54m/s)와 5일 예보 카드 5개가 정상적으로 표시되는 것까지 확인
 
-- 검색 시 401 에러가 친절한 한글 안내 문구로 바뀌어 나오는지 (콘솔에는 401 에러가 그대로 찍히지만 화면은 정상적으로 안내)
-- "내 위치로 조회" 버튼이 ipwho.is로 실제 위치(예: Seongnam-si)를 가져와서 입력창에 채우고 검색을 시도하는지
-
-OpenWeatherMap 키가 활성화되면 `/handson/weather-axios`에서 실제 도시를 검색해 데이터가 정상적으로 나오는지 재확인이 필요합니다.
