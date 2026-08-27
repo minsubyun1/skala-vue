@@ -76,6 +76,7 @@ Pinia로 온도/풍속 단위를 전역 상태로 관리하는 핸즈온 5(Weath
 
 과제별 요구사항, 구현 방식, 코드 스니펫, 트러블슈팅은 각 문서에 따로 정리했습니다.
 
+- [Weather Dashboard (통합)](docs/weather-dashboard-integrated.md) — 과제 요구사항은 아니고, 핸즈온 1의 디자인 위에 Router/Store/Axios/UI Library 기능을 전부 합친 데모. 사이드바 맨 위(`/handson/weather-dashboard`)
 - [핸즈온 1 - Weather Mockup](docs/handson-01-weather-mockup.md) — v-for/v-if/양방향 바인딩/이벤트 수식어 실습 + three.js 인터랙티브 배경, Open-Meteo 실시간 날씨, 상세보기 모달
 - [핸즈온 2 - Weather Composition](docs/handson-02-weather-composition.md) — computed/watch/watchEffect 실습 + 즐겨찾기 기능
 - [핸즈온 3 - Weather Component](docs/handson-03-weather-component.md) — Weather Mockup을 4개 컴포넌트(+추가 3개)로 분리, props/emits/slot 실습

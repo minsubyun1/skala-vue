@@ -6,6 +6,12 @@ export const practiceGroups = [
     label: '핸즈온 과제',
     items: [
       {
+        path: '/handson/weather-dashboard',
+        name: 'handson-weather-dashboard',
+        label: 'Weather Dashboard (통합)',
+        component: () => import('@/views/WeatherDashboardView.vue'),
+      },
+      {
         path: '/handson/weather-mockup',
         name: 'handson-weather-mockup',
         label: 'Weather Mockup',

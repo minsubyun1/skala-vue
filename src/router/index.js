@@ -43,10 +43,15 @@ const router = createRouter({
 })
 
 // Element Plus의 다크 테마 변수 파일(theme-chalk/dark/css-vars.css)은 반드시
-// html.dark 셀렉터를 기준으로 하기 때문에, Weather Router/Store 화면에 들어가 있는
-// 동안만 documentElement에 dark 클래스를 붙였다 뗀다.
+// html.dark 셀렉터를 기준으로 하기 때문에, 다크 배경 위에 Element Plus를 쓰는 화면에
+// 들어가 있는 동안만 documentElement에 dark 클래스를 붙였다 뗀다.
+const DARK_THEME_PATHS = ['/handson/weather-router', '/handson/weather-dashboard']
+
 router.afterEach((to) => {
-  document.documentElement.classList.toggle('dark', to.path.startsWith('/handson/weather-router'))
+  document.documentElement.classList.toggle(
+    'dark',
+    DARK_THEME_PATHS.some((path) => to.path.startsWith(path)),
+  )
 })
 
 export default router
