@@ -317,6 +317,7 @@ function removeRegion(id) {
 .map-panel {
   flex: 1;
   min-width: 0;
+  min-height: 360px;
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
@@ -402,6 +403,10 @@ function removeRegion(id) {
 @media (max-width: 760px) {
   .map-layout {
     flex-direction: column;
+  }
+
+  .map-panel {
+    width: 100%;
   }
 
   .region-sidebar {

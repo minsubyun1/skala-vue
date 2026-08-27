@@ -7,9 +7,9 @@ const totalCount = practiceGroups.reduce((sum, group) => sum + group.items.lengt
 <template>
   <div class="home">
     <section class="hero practice-section">
-      <p class="eyebrow">TWL — Today's Weather Log</p>
-      <h2>Vue 3 실습을 날씨 관측 일지처럼 기록합니다</h2>
-      <p class="meta">
+      <p class="eyebrow">Today's Weather Log</p>
+      <h2>오늘의 날씨 로그 TWL 서비스입니다.</h2>
+      <p class="lede">
         Composition API 실습 {{ totalCount }}개를 카테고리별로 정리했습니다. 왼쪽 사이드바 또는
         아래 카드를 클릭해서 확인해주세요.
       </p>
