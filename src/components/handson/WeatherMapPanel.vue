@@ -39,6 +39,7 @@ function renderMarkers(regions) {
 }
 
 let regionCount = props.regions.length
+let resizeObserver = null
 
 onMounted(() => {
   map = L.map(mapContainer.value).setView([36.5, 127.8], 7)
@@ -52,6 +53,12 @@ onMounted(() => {
     emit('map-click', { lat: event.latlng.lat, lon: event.latlng.lng })
   })
   renderMarkers(props.regions)
+
+  // Leaflet은 처음 만들 때의 컨테이너 크기를 기억해두는데, 모바일 브라우저에서 주소창이
+  // 접혔다 펴지며 뷰포트가 바뀌거나 flex 레이아웃이 재계산되면 지도가 그 크기를 그대로
+  // 들고 있어서 어긋나 보인다. 컨테이너 크기가 바뀔 때마다 다시 계산하도록 한다.
+  resizeObserver = new ResizeObserver(() => map?.invalidateSize())
+  resizeObserver.observe(mapContainer.value)
 })
 
 watch(
@@ -69,6 +76,7 @@ watch(
 )
 
 onBeforeUnmount(() => {
+  resizeObserver?.disconnect()
   map?.remove()
 })
 </script>
