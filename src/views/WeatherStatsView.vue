@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import { ElButton, ElCard, ElDescriptions, ElDescriptionsItem, ElTag } from 'element-plus'
 import WeatherRouterNav from '@/components/handson/WeatherRouterNav.vue'
 import UnitToggler from '@/components/exercise/UnitToggler.vue'
 import { weatherMockData } from '@/data/weatherMockData'
@@ -37,31 +38,26 @@ const countByStatus = computed(() => {
       <UnitToggler />
     </div>
 
-    <div class="stats-card">
+    <ElCard shadow="never" class="stats-card">
       <h3>전체 통계 ({{ cityCount }}개 도시)</h3>
 
-      <dl class="stat-grid">
-        <div>
-          <dt>평균 기온</dt>
-          <dd>{{ averageTemp }}{{ configStore.unitSymbol }}</dd>
-        </div>
-        <div>
-          <dt>최고 기온</dt>
-          <dd>{{ hottest.name }} ({{ toDisplayTemp(hottest.temp) }}{{ configStore.unitSymbol }})</dd>
-        </div>
-        <div>
-          <dt>최저 기온</dt>
-          <dd>{{ coldest.name }} ({{ toDisplayTemp(coldest.temp) }}{{ configStore.unitSymbol }})</dd>
-        </div>
-      </dl>
+      <ElDescriptions :column="1" border size="small" class="stat-grid">
+        <ElDescriptionsItem label="평균 기온">{{ averageTemp }}{{ configStore.unitSymbol }}</ElDescriptionsItem>
+        <ElDescriptionsItem label="최고 기온">
+          {{ hottest.name }} ({{ toDisplayTemp(hottest.temp) }}{{ configStore.unitSymbol }})
+        </ElDescriptionsItem>
+        <ElDescriptionsItem label="최저 기온">
+          {{ coldest.name }} ({{ toDisplayTemp(coldest.temp) }}{{ configStore.unitSymbol }})
+        </ElDescriptionsItem>
+      </ElDescriptions>
 
       <h3>날씨 상태별 도시 수</h3>
-      <ul class="status-list">
-        <li v-for="(count, status) in countByStatus" :key="status">{{ status }}: {{ count }}곳</li>
-      </ul>
-    </div>
+      <div class="status-tags">
+        <ElTag v-for="(count, status) in countByStatus" :key="status">{{ status }}: {{ count }}곳</ElTag>
+      </div>
+    </ElCard>
 
-    <RouterLink to="/handson/weather-router" class="back-link">← 메인 대시보드로 돌아가기</RouterLink>
+    <ElButton tag="router-link" to="/handson/weather-router" text>← 메인 대시보드로 돌아가기</ElButton>
   </div>
 </template>
 
@@ -76,9 +72,6 @@ const countByStatus = computed(() => {
 }
 
 .stats-card {
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-  padding: 20px;
   max-width: 420px;
   margin-bottom: 16px;
 }
@@ -88,36 +81,12 @@ const countByStatus = computed(() => {
 }
 
 .stat-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  padding-bottom: 16px;
-  margin-bottom: 16px;
-  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 20px;
 }
 
-.stat-grid dt {
-  font-size: 0.75rem;
-  opacity: 0.6;
-}
-
-.stat-grid dd {
-  font-weight: 700;
-}
-
-.status-list {
-  list-style: none;
-  line-height: 1.9;
-}
-
-.back-link {
-  display: inline-block;
-  color: #42b883;
-  text-decoration: none;
-  font-weight: 700;
-}
-
-.back-link:hover {
-  text-decoration: underline;
+.status-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 </style>

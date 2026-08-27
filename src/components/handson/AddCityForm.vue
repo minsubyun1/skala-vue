@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { ElButton, ElForm, ElFormItem, ElInput, ElInputNumber, ElOption, ElSelect } from 'element-plus'
 
 defineProps({
   statusOptions: { type: Array, required: true },
@@ -17,24 +18,29 @@ function submit() {
 </script>
 
 <template>
-  <form class="add-city" @submit.prevent="submit">
+  <div class="add-city">
     <p class="add-city-title">➕ 나만의 도시 추가하기</p>
-    <input v-model="newCity.name" type="text" placeholder="도시 이름" required />
-    <div class="add-city-row">
-      <input v-model.number="newCity.temp" type="number" placeholder="기온(°C)" />
-      <select v-model="newCity.status">
-        <option v-for="status in statusOptions" :key="status" :value="status">{{ status }}</option>
-      </select>
-    </div>
-    <button type="submit">추가</button>
-  </form>
+    <ElForm label-position="top" size="small" @submit.prevent="submit">
+      <ElFormItem label="도시 이름">
+        <ElInput v-model="newCity.name" placeholder="도시 이름" />
+      </ElFormItem>
+      <div class="add-city-row">
+        <ElFormItem label="기온(°C)">
+          <ElInputNumber v-model="newCity.temp" :controls="false" />
+        </ElFormItem>
+        <ElFormItem label="날씨">
+          <ElSelect v-model="newCity.status">
+            <ElOption v-for="status in statusOptions" :key="status" :label="status" :value="status" />
+          </ElSelect>
+        </ElFormItem>
+      </div>
+      <ElButton type="primary" plain @click="submit">추가</ElButton>
+    </ElForm>
+  </div>
 </template>
 
 <style scoped>
 .add-city {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px dashed rgba(255, 255, 255, 0.25);
   border-radius: 12px;
@@ -44,37 +50,15 @@ function submit() {
 .add-city-title {
   font-size: 0.8rem;
   opacity: 0.85;
+  margin-bottom: 10px;
 }
 
 .add-city-row {
   display: flex;
-  gap: 8px;
+  gap: 12px;
 }
 
-.add-city input,
-.add-city select {
-  padding: 6px 8px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(15, 23, 42, 0.6);
-  color: #f1f5f9;
-  min-width: 0;
-}
-
-.add-city input[type='text'] {
-  width: 100%;
-}
-
-.add-city-row input {
+.add-city-row :deep(.el-form-item) {
   flex: 1;
-}
-
-.add-city button {
-  padding: 6px 14px;
-  border-radius: 8px;
-  border: 1px solid #ffd166;
-  background: transparent;
-  color: #ffd166;
-  cursor: pointer;
 }
 </style>

@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
-import { Loader2, MapPin, Search } from 'lucide-vue-next'
+import { ElButton, ElCard, ElInput } from 'element-plus'
+import { MapPin, Search } from 'lucide-vue-next'
 import WeatherGlyph from './WeatherGlyph.vue'
 
 // 실시간 조회 상태(isLoading/error/result)는 부모가 들고 있는 composable을 그대로 props로 받는다.
@@ -21,17 +22,18 @@ function submit() {
 <template>
   <div class="live-panel">
     <p class="live-title"><MapPin :size="16" /> 실시간 날씨 조회</p>
-    <form class="live-form" @submit.prevent="submit">
-      <input v-model="liveQuery" type="text" placeholder="도시 이름 (서울, Tokyo, London...)" />
-      <button type="submit" :disabled="isLoading">
-        <Loader2 v-if="isLoading" :size="16" class="spin" />
-        <Search v-else :size="16" />
-      </button>
-    </form>
+    <div class="live-form">
+      <ElInput
+        v-model="liveQuery"
+        placeholder="도시 이름 (서울, Tokyo, London...)"
+        @keyup.enter="submit"
+      />
+      <ElButton type="warning" plain :loading="isLoading" :icon="Search" @click="submit" />
+    </div>
 
     <p v-if="error" class="live-error">{{ error }}</p>
 
-    <article v-if="result" class="live-card">
+    <ElCard v-if="result" shadow="never" class="live-card">
       <div class="card-top">
         <span class="city-name">
           <span class="live-badge">LIVE</span>
@@ -42,7 +44,7 @@ function submit() {
       </div>
       <p class="temp">{{ result.temp }}°C</p>
       <p class="meta">습도 {{ result.humidity }}% · 풍속 {{ result.wind }}km/h</p>
-    </article>
+    </ElCard>
   </div>
 </template>
 
@@ -68,45 +70,6 @@ function submit() {
   gap: 8px;
 }
 
-.live-form input {
-  flex: 1;
-  min-width: 0;
-  padding: 8px 10px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(15, 23, 42, 0.6);
-  color: #f1f5f9;
-}
-
-.live-form button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid #ffd166;
-  background: rgba(255, 209, 102, 0.15);
-  color: #ffd166;
-  cursor: pointer;
-}
-
-.live-form button:disabled {
-  opacity: 0.6;
-  cursor: progress;
-}
-
-.spin {
-  animation: spin 1s linear infinite;
-}
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .live-error {
   margin-top: 10px;
   font-size: 0.78rem;
@@ -115,9 +78,7 @@ function submit() {
 
 .live-card {
   margin-top: 10px;
-  border: 1px solid rgba(255, 209, 102, 0.6);
-  border-radius: 14px;
-  padding: 16px;
+  border-color: rgba(255, 209, 102, 0.6) !important;
   background: rgba(15, 23, 42, 0.55);
 }
 

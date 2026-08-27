@@ -1,4 +1,6 @@
 <script setup>
+import { ElInput } from 'element-plus'
+
 // 부모로부터 검색어(searchQuery)를 props로 받아 표시하고,
 // 사용자가 입력하면 update-query 이벤트로 부모에게 새 검색어를 전달한다.
 defineProps({
@@ -6,15 +8,22 @@ defineProps({
 })
 const emit = defineEmits(['update-query'])
 
-function handleInput(event) {
-  emit('update-query', event.target.value)
+// el-input의 @input은 네이티브 이벤트 대신 입력된 문자열 값을 그대로 넘겨준다.
+function handleInput(value) {
+  emit('update-query', value)
 }
 </script>
 
 <template>
   <div>
     <label class="search-label">🔍 도시 검색 (실습 데이터)</label>
-    <input :value="searchQuery" @input="handleInput" type="text" placeholder="검색할 도시 이름 입력" />
+    <ElInput
+      :model-value="searchQuery"
+      placeholder="검색할 도시 이름 입력"
+      clearable
+      @input="handleInput"
+      @clear="handleInput('')"
+    />
     <p class="search-hint">검색 중인 도시: {{ searchQuery || '전체' }}</p>
   </div>
 </template>
@@ -25,15 +34,6 @@ function handleInput(event) {
   font-size: 0.85rem;
   margin-bottom: 6px;
   opacity: 0.85;
-}
-
-input {
-  width: 100%;
-  padding: 8px 10px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(15, 23, 42, 0.6);
-  color: #f1f5f9;
 }
 
 .search-hint {

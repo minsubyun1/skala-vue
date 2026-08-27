@@ -1,4 +1,5 @@
 <script setup>
+import { ElButton, ElCard } from 'element-plus'
 import WeatherRouterNav from '@/components/handson/WeatherRouterNav.vue'
 import UnitToggler from '@/components/exercise/UnitToggler.vue'
 </script>
@@ -11,7 +12,7 @@ import UnitToggler from '@/components/exercise/UnitToggler.vue'
       <UnitToggler />
     </div>
 
-    <div class="about-card">
+    <ElCard shadow="never" class="about-card">
       <h3>이 서비스는 무엇인가요?</h3>
       <p>
         Skala-Vue 실습 중 하나로 만든 미니 날씨 대시보드입니다. 도시를 검색하고, 카드를
@@ -28,8 +29,8 @@ import UnitToggler from '@/components/exercise/UnitToggler.vue'
         <li>three.js로 만든 날씨 상태별 배경 파티클</li>
       </ul>
 
-      <RouterLink to="/handson/weather-router" class="back-link">← 메인 대시보드로 돌아가기</RouterLink>
-    </div>
+      <ElButton tag="router-link" to="/handson/weather-router" text>← 메인 대시보드로 돌아가기</ElButton>
+    </ElCard>
   </div>
 </template>
 
@@ -44,9 +45,6 @@ import UnitToggler from '@/components/exercise/UnitToggler.vue'
 }
 
 .about-card {
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-  padding: 20px;
   max-width: 520px;
 }
 
@@ -63,16 +61,5 @@ import UnitToggler from '@/components/exercise/UnitToggler.vue'
   margin-bottom: 20px;
   padding-left: 20px;
   line-height: 1.8;
-}
-
-.back-link {
-  display: inline-block;
-  color: #42b883;
-  text-decoration: none;
-  font-weight: 700;
-}
-
-.back-link:hover {
-  text-decoration: underline;
 }
 </style>

@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { ElButton, ElCard, ElDescriptions, ElDescriptionsItem } from 'element-plus'
 import WeatherGlyph from '@/components/handson/WeatherGlyph.vue'
 import WeatherRouterNav from '@/components/handson/WeatherRouterNav.vue'
 import UnitToggler from '@/components/exercise/UnitToggler.vue'
@@ -48,39 +49,27 @@ const displayWind = computed(() => {
       <UnitToggler />
     </div>
 
-    <div v-if="city" class="detail-card">
+    <ElCard v-if="city" shadow="never" class="detail-card">
       <WeatherGlyph :status="city.status" :size="56" />
       <h3>{{ city.name }} 상세 기상관측</h3>
       <p class="temp">{{ displayTemp }}{{ configStore.unitSymbol }}</p>
 
-      <dl class="stat-grid">
-        <div>
-          <dt>날씨</dt>
-          <dd>{{ city.status }}</dd>
-        </div>
-        <div>
-          <dt>습도</dt>
-          <dd>{{ city.humidity }}%</dd>
-        </div>
-        <div>
-          <dt>풍속</dt>
-          <dd>{{ displayWind }}{{ configStore.windUnitLabel }}</dd>
-        </div>
-        <div>
-          <dt>체감기온</dt>
-          <dd>{{ displayFeelsLike }}{{ configStore.unitSymbol }}</dd>
-        </div>
-      </dl>
+      <ElDescriptions :column="2" border size="small" class="stat-grid">
+        <ElDescriptionsItem label="날씨">{{ city.status }}</ElDescriptionsItem>
+        <ElDescriptionsItem label="습도">{{ city.humidity }}%</ElDescriptionsItem>
+        <ElDescriptionsItem label="풍속">{{ displayWind }}{{ configStore.windUnitLabel }}</ElDescriptionsItem>
+        <ElDescriptionsItem label="체감기온">{{ displayFeelsLike }}{{ configStore.unitSymbol }}</ElDescriptionsItem>
+      </ElDescriptions>
 
       <p class="city-id">도시 코드: {{ city.id }} (URL의 :cityId 파라미터)</p>
-    </div>
+    </ElCard>
 
-    <div v-else-if="notFound" class="detail-card">
+    <ElCard v-else-if="notFound" shadow="never" class="detail-card">
       <p>"{{ route.params.cityId }}"에 해당하는 관측 데이터를 찾을 수 없습니다.</p>
       <p class="hint">홈 화면에서 직접 추가한 도시는 이 mock 데이터에 없어서 조회되지 않습니다.</p>
-    </div>
+    </ElCard>
 
-    <RouterLink to="/handson/weather-router" class="back-link">← 메인 대시보드로 돌아가기</RouterLink>
+    <ElButton tag="router-link" to="/handson/weather-router" text>← 메인 대시보드로 돌아가기</ElButton>
   </div>
 </template>
 
@@ -95,9 +84,6 @@ const displayWind = computed(() => {
 }
 
 .detail-card {
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-  padding: 24px;
   max-width: 420px;
   text-align: center;
   margin-bottom: 16px;
@@ -110,23 +96,8 @@ const displayWind = computed(() => {
 }
 
 .stat-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
   text-align: left;
-  padding: 14px 0;
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
   margin-bottom: 12px;
-}
-
-.stat-grid dt {
-  font-size: 0.75rem;
-  opacity: 0.6;
-}
-
-.stat-grid dd {
-  font-weight: 700;
 }
 
 .city-id {
@@ -138,16 +109,5 @@ const displayWind = computed(() => {
   font-size: 0.85rem;
   opacity: 0.7;
   margin-top: 8px;
-}
-
-.back-link {
-  display: inline-block;
-  color: #42b883;
-  text-decoration: none;
-  font-weight: 700;
-}
-
-.back-link:hover {
-  text-decoration: underline;
 }
 </style>

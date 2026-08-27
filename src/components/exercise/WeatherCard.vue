@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import { ElButton, ElCard, ElTag } from 'element-plus'
 import WeatherGlyph from '@/components/handson/WeatherGlyph.vue'
 import { useConfigStore } from '@/stores/configStore'
 
@@ -25,27 +26,35 @@ const displayWind = computed(() => {
   if (configStore.windUnit === 'kmh') return (props.city.wind * 3.6).toFixed(1)
   return props.city.wind
 })
+
+// 배지 분류는 표시 단위와 무관하게 항상 섭씨 원본 기준으로 판단한다.
+const badge = computed(() => {
+  const temp = props.city.temp
+  if (temp >= 30) return { text: '🔥 폭염 (30도 이상)', type: 'danger' }
+  if (temp >= 25) return { text: '🌡️ 더움 (25도 이상)', type: 'warning' }
+  if (temp >= 18) return { text: '🍃 선선함 (18~24도)', type: 'primary' }
+  return { text: '🧊 쌀쌀함 (18도 미만)', type: 'info' }
+})
 </script>
 
 <template>
-  <article class="weather-card" @click="emit('select-card', city)">
-    <div class="card-top">
-      <span class="city-name">{{ city.name }}</span>
-      <span class="status-icon">
-        <WeatherGlyph :status="city.status" />
-        {{ city.status }}
-      </span>
-    </div>
+  <ElCard shadow="hover" class="weather-card" @click="emit('select-card', city)">
+    <template #header>
+      <div class="card-top">
+        <span class="city-name">{{ city.name }}</span>
+        <span class="status-icon">
+          <WeatherGlyph :status="city.status" />
+          {{ city.status }}
+        </span>
+      </div>
+    </template>
+
     <p class="temp">현재 기온: {{ displayTemp }}{{ configStore.unitSymbol }}</p>
     <p class="meta">습도 {{ city.humidity }}% · 풍속 {{ displayWind }}{{ configStore.windUnitLabel }}</p>
+    <ElTag :type="badge.type" size="small" round class="badge">{{ badge.text }}</ElTag>
 
-    <p v-if="city.temp >= 30" class="badge badge-hot">🔥 폭염 (30도 이상)</p>
-    <p v-else-if="city.temp >= 25" class="badge badge-warm">🌡️ 더움 (25도 이상)</p>
-    <p v-else-if="city.temp >= 18" class="badge badge-cool">🍃 선선함 (18~24도)</p>
-    <p v-else class="badge badge-cold">🧊 쌀쌀함 (18도 미만)</p>
-
-    <button class="detail-btn" @click.stop="emit('click-detail', city)">상세보기</button>
-  </article>
+    <ElButton class="detail-btn" @click.stop="emit('click-detail', city)">상세보기</ElButton>
+  </ElCard>
 </template>
 
 <style scoped>
@@ -53,16 +62,7 @@ const displayWind = computed(() => {
   cursor: pointer;
   background: rgba(15, 23, 42, 0.55);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 14px;
-  padding: 16px;
-  transition:
-    transform 0.12s ease-out,
-    border-color 0.15s ease;
-}
-
-.weather-card:hover {
-  border-color: #ffd166;
+  border-color: rgba(255, 255, 255, 0.18);
 }
 
 .card-top {
@@ -70,7 +70,6 @@ const displayWind = computed(() => {
   justify-content: space-between;
   align-items: center;
   font-weight: 700;
-  margin-bottom: 6px;
 }
 
 .status-icon {
@@ -93,41 +92,13 @@ const displayWind = computed(() => {
 }
 
 .badge {
-  display: inline-block;
-  font-size: 0.78rem;
-  padding: 3px 10px;
-  border-radius: 999px;
+  display: block;
+  width: fit-content;
   margin-bottom: 10px;
-}
-
-.badge-hot {
-  background: #ef4444;
-}
-.badge-warm {
-  background: #f97316;
-}
-.badge-cool {
-  background: #38bdf8;
-  color: #0f172a;
-}
-.badge-cold {
-  background: #60a5fa;
-  color: #0f172a;
 }
 
 .detail-btn {
   display: block;
   width: 100%;
-  padding: 6px 0;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.1);
-  color: #f1f5f9;
-  cursor: pointer;
-}
-
-.detail-btn:hover {
-  border-color: #ffd166;
-  color: #ffd166;
 }
 </style>
