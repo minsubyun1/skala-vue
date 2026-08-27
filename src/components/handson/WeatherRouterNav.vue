@@ -15,7 +15,6 @@
 .weather-router-nav {
   display: flex;
   gap: 8px;
-  margin-bottom: 16px;
 }
 
 .weather-router-nav a {

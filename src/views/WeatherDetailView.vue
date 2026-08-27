@@ -1,13 +1,16 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import WeatherGlyph from '@/components/handson/WeatherGlyph.vue'
 import WeatherRouterNav from '@/components/handson/WeatherRouterNav.vue'
+import UnitToggler from '@/components/exercise/UnitToggler.vue'
 import { weatherMockData } from '@/data/weatherMockData'
+import { useConfigStore } from '@/stores/configStore'
 
 const route = useRoute()
 const city = ref(null)
 const notFound = ref(false)
+const configStore = useConfigStore()
 
 // 요구사항: 동적 경로 매칭(cityId)을 기반으로 Mount 시점에 Mock Data에서 도시 객체를 선택한다.
 onMounted(() => {
@@ -19,17 +22,36 @@ onMounted(() => {
     notFound.value = true
   }
 })
+
+const displayTemp = computed(() => {
+  if (!city.value) return null
+  const rawTemp = city.value.temp
+  return configStore.unit === 'fahrenheit' ? Math.round((rawTemp * 9) / 5 + 32) : rawTemp
+})
+const displayFeelsLike = computed(() => {
+  if (!city.value) return null
+  const rawFeelsLike = city.value.temp - city.value.wind * 0.5
+  const converted = configStore.unit === 'fahrenheit' ? (rawFeelsLike * 9) / 5 + 32 : rawFeelsLike
+  return converted.toFixed(1)
+})
+const displayWind = computed(() => {
+  if (!city.value) return null
+  return configStore.windUnit === 'kmh' ? (city.value.wind * 3.6).toFixed(1) : city.value.wind
+})
 </script>
 
 <template>
   <div class="practice-section">
     <h2>Hands on - Weather Router</h2>
-    <WeatherRouterNav />
+    <div class="nav-row">
+      <WeatherRouterNav />
+      <UnitToggler />
+    </div>
 
     <div v-if="city" class="detail-card">
       <WeatherGlyph :status="city.status" :size="56" />
       <h3>{{ city.name }} 상세 기상관측</h3>
-      <p class="temp">{{ city.temp }}°C</p>
+      <p class="temp">{{ displayTemp }}{{ configStore.unitSymbol }}</p>
 
       <dl class="stat-grid">
         <div>
@@ -42,11 +64,11 @@ onMounted(() => {
         </div>
         <div>
           <dt>풍속</dt>
-          <dd>{{ city.wind }}m/s</dd>
+          <dd>{{ displayWind }}{{ configStore.windUnitLabel }}</dd>
         </div>
         <div>
           <dt>체감기온</dt>
-          <dd>{{ (city.temp - city.wind * 0.5).toFixed(1) }}°C</dd>
+          <dd>{{ displayFeelsLike }}{{ configStore.unitSymbol }}</dd>
         </div>
       </dl>
 
@@ -63,6 +85,15 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
 .detail-card {
   border: 1px solid var(--color-border);
   border-radius: 12px;

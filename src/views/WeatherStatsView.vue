@@ -1,14 +1,22 @@
 <script setup>
 import { computed } from 'vue'
 import WeatherRouterNav from '@/components/handson/WeatherRouterNav.vue'
+import UnitToggler from '@/components/exercise/UnitToggler.vue'
 import { weatherMockData } from '@/data/weatherMockData'
+import { useConfigStore } from '@/stores/configStore'
+
+const configStore = useConfigStore()
+
+function toDisplayTemp(rawTemp) {
+  return configStore.unit === 'fahrenheit' ? Math.round((rawTemp * 9) / 5 + 32) : rawTemp
+}
 
 // 요구사항 6: 기존 4개 view 외에 본인이 추가한 view.
 // 통계 페이지라 별도 상태 없이 mock 데이터를 computed로 가공만 한다.
 const cityCount = computed(() => weatherMockData.length)
 const averageTemp = computed(() => {
   const sum = weatherMockData.reduce((acc, city) => acc + city.temp, 0)
-  return (sum / weatherMockData.length).toFixed(1)
+  return toDisplayTemp(sum / weatherMockData.length).toFixed(1)
 })
 const hottest = computed(() => [...weatherMockData].sort((a, b) => b.temp - a.temp)[0])
 const coldest = computed(() => [...weatherMockData].sort((a, b) => a.temp - b.temp)[0])
@@ -24,7 +32,10 @@ const countByStatus = computed(() => {
 <template>
   <div class="practice-section">
     <h2>Hands on - Weather Router</h2>
-    <WeatherRouterNav />
+    <div class="nav-row">
+      <WeatherRouterNav />
+      <UnitToggler />
+    </div>
 
     <div class="stats-card">
       <h3>전체 통계 ({{ cityCount }}개 도시)</h3>
@@ -32,15 +43,15 @@ const countByStatus = computed(() => {
       <dl class="stat-grid">
         <div>
           <dt>평균 기온</dt>
-          <dd>{{ averageTemp }}°C</dd>
+          <dd>{{ averageTemp }}{{ configStore.unitSymbol }}</dd>
         </div>
         <div>
           <dt>최고 기온</dt>
-          <dd>{{ hottest.name }} ({{ hottest.temp }}°C)</dd>
+          <dd>{{ hottest.name }} ({{ toDisplayTemp(hottest.temp) }}{{ configStore.unitSymbol }})</dd>
         </div>
         <div>
           <dt>최저 기온</dt>
-          <dd>{{ coldest.name }} ({{ coldest.temp }}°C)</dd>
+          <dd>{{ coldest.name }} ({{ toDisplayTemp(coldest.temp) }}{{ configStore.unitSymbol }})</dd>
         </div>
       </dl>
 
@@ -55,6 +66,15 @@ const countByStatus = computed(() => {
 </template>
 
 <style scoped>
+.nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
 .stats-card {
   border: 1px solid var(--color-border);
   border-radius: 12px;

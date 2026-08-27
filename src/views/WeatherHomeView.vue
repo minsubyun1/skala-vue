@@ -9,6 +9,7 @@ import AddCityForm from '@/components/handson/AddCityForm.vue'
 import LiveWeatherPanel from '@/components/handson/LiveWeatherPanel.vue'
 import NowPanel from '@/components/handson/NowPanel.vue'
 import WeatherRouterNav from '@/components/handson/WeatherRouterNav.vue'
+import UnitToggler from '@/components/exercise/UnitToggler.vue'
 import { weatherMockData } from '@/data/weatherMockData'
 import { useLiveWeather } from '@/composables/useLiveWeather'
 
@@ -98,11 +99,15 @@ const heroReadout = computed(() => {
 
 <template>
   <div class="practice-section">
-    <h2>Hands on - Weather Router</h2>
-    <WeatherRouterNav />
+    <h2>Hands on - Weather Router / Store</h2>
+    <div class="nav-row">
+      <WeatherRouterNav />
+      <UnitToggler />
+    </div>
     <p class="note">
       핸즈온 3(WeatherParent)을 그대로 가져오되, 상세보기 버튼을 모달 대신
       <code>router.push('/handson/weather-router/weather/' + city.id)</code>로 바꿨습니다.
+      온도·풍속 단위는 오른쪽 토글(<code>stores/configStore.js</code>)로 전환됩니다.
     </p>
 
     <section class="hero" @mouseleave="hoveredStatus = ''">
@@ -163,6 +168,15 @@ const heroReadout = computed(() => {
   opacity: 0.75;
   margin-bottom: 14px;
   line-height: 1.5;
+}
+
+.nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 .hero {

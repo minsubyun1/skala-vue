@@ -1,11 +1,15 @@
 <script setup>
 import WeatherRouterNav from '@/components/handson/WeatherRouterNav.vue'
+import UnitToggler from '@/components/exercise/UnitToggler.vue'
 </script>
 
 <template>
   <div class="practice-section">
     <h2>Hands on - Weather Router</h2>
-    <WeatherRouterNav />
+    <div class="nav-row">
+      <WeatherRouterNav />
+      <UnitToggler />
+    </div>
 
     <div class="about-card">
       <h3>이 서비스는 무엇인가요?</h3>
@@ -19,6 +23,7 @@ import WeatherRouterNav from '@/components/handson/WeatherRouterNav.vue'
       <ul>
         <li>Vue Router의 Lazy Loading, 동적 라우트 매칭(<code>:cityId</code>), Catch-all Route</li>
         <li>Programmatic Navigation (<code>router.push</code>)</li>
+        <li>Pinia로 만든 온도/풍속 단위 설정(<code>stores/configStore.js</code>)</li>
         <li>Open-Meteo API를 이용한 실시간 날씨 조회</li>
         <li>three.js로 만든 날씨 상태별 배경 파티클</li>
       </ul>
@@ -29,6 +34,15 @@ import WeatherRouterNav from '@/components/handson/WeatherRouterNav.vue'
 </template>
 
 <style scoped>
+.nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
 .about-card {
   border: 1px solid var(--color-border);
   border-radius: 12px;

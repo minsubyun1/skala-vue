@@ -1,13 +1,30 @@
 <script setup>
+import { computed } from 'vue'
 import WeatherGlyph from '@/components/handson/WeatherGlyph.vue'
+import { useConfigStore } from '@/stores/configStore'
 
 // 선택된(=이 카드에 배정된) 도시 객체를 props로 받아 표시한다.
-defineProps({
+const props = defineProps({
   city: { type: Object, required: true },
 })
 
 // 카드 선택과 상세보기를 각각 별도 이벤트로 부모에게 전달한다.
 const emit = defineEmits(['select-card', 'click-detail'])
+
+const configStore = useConfigStore()
+
+// 슬라이드의 displayTemp 패턴 그대로: 원본은 섭씨로 두고, 화면에 보여줄 때만 변환한다.
+const displayTemp = computed(() => {
+  const rawTemp = props.city.temp
+  if (configStore.unit === 'fahrenheit') {
+    return Math.round((rawTemp * 9) / 5 + 32)
+  }
+  return rawTemp
+})
+const displayWind = computed(() => {
+  if (configStore.windUnit === 'kmh') return (props.city.wind * 3.6).toFixed(1)
+  return props.city.wind
+})
 </script>
 
 <template>
@@ -19,8 +36,8 @@ const emit = defineEmits(['select-card', 'click-detail'])
         {{ city.status }}
       </span>
     </div>
-    <p class="temp">현재 기온: {{ city.temp }}°C</p>
-    <p class="meta">습도 {{ city.humidity }}% · 풍속 {{ city.wind }}m/s</p>
+    <p class="temp">현재 기온: {{ displayTemp }}{{ configStore.unitSymbol }}</p>
+    <p class="meta">습도 {{ city.humidity }}% · 풍속 {{ displayWind }}{{ configStore.windUnitLabel }}</p>
 
     <p v-if="city.temp >= 30" class="badge badge-hot">🔥 폭염 (30도 이상)</p>
     <p v-else-if="city.temp >= 25" class="badge badge-warm">🌡️ 더움 (25도 이상)</p>
